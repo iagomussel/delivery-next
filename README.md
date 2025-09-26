@@ -51,7 +51,7 @@ cp env.example .env.local
 
 Edite o arquivo `.env.local` com suas configurações:
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/delivery_next"
+DATABASE_URL="file:./dev.db"
 NEXTAUTH_SECRET="your-secret-key-here"
 NEXTAUTH_URL="http://localhost:3000"
 JWT_SECRET="your-jwt-secret-here"
@@ -62,8 +62,8 @@ JWT_SECRET="your-jwt-secret-here"
 # Gerar o cliente Prisma
 npm run db:generate
 
-# Executar as migrações
-npm run db:migrate
+# Criar e executar as migrações
+npm run db:push
 ```
 
 5. **Inicie o servidor de desenvolvimento**

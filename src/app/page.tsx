@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Restaurant, Users, ShoppingCart, BarChart3 } from 'lucide-react'
+import { Store, Users, ShoppingCart, BarChart3 } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -11,7 +11,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
-              <Restaurant className="h-8 w-8 text-orange-600" />
+              <Store className="h-8 w-8 text-orange-600" />
               <h1 className="ml-2 text-2xl font-bold text-gray-900">DeliveryNext</h1>
             </div>
             <div className="flex space-x-4">
@@ -67,7 +67,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card>
               <CardHeader>
-                <Restaurant className="h-12 w-12 text-orange-600 mb-4" />
+                <Store className="h-12 w-12 text-orange-600 mb-4" />
                 <CardTitle>Gestão de Restaurantes</CardTitle>
                 <CardDescription>
                   Multi-tenant com gestão completa de restaurantes, horários e áreas de entrega
@@ -176,7 +176,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
-              <Restaurant className="h-8 w-8 text-orange-600" />
+              <Store className="h-8 w-8 text-orange-600" />
               <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
             </div>
             <p className="text-gray-400">
