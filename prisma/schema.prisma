@@ -1,0 +1,364 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  STAFF
+  AFFILIATE
+  ADMIN
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELED
+}
+
+enum FulfillmentType {
+  DELIVERY
+  PICKUP
+}
+
+enum PaymentMethod {
+  CASH
+  PIX
+  DEBIT
+  CREDIT
+  VOUCHER
+  OTHER
+}
+
+enum TenantStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model Tenant {
+  id        String        @id @default(cuid())
+  name      String
+  slug      String        @unique
+  status    TenantStatus  @default(ACTIVE)
+  plan      String        @default("basic")
+  timezone  String        @default("America/Sao_Paulo")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Relations
+  users        User[]
+  restaurants  Restaurant[]
+  customers    Customer[]
+  affiliates   Affiliate[]
+
+  @@map("tenants")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  tenantId      String
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          UserRole
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  orderEvents   OrderEvent[]
+  affiliate     Affiliate?
+
+  @@map("users")
+}
+
+model Restaurant {
+  id                String    @id @default(cuid())
+  tenantId          String
+  name              String
+  slug              String    @unique
+  address           Json      // { street, number, neighborhood, city, state, zip }
+  geo               Json?     // { lat, lng }
+  deliveryRadiusKm  Decimal   @default(5.0)
+  pickupEnabled     Boolean   @default(true)
+  openingHours      Json      // { monday: { open: "08:00", close: "22:00" }, ... }
+  acceptingOrders   Boolean   @default(true)
+  deliveryFee       Decimal   @default(0.0)
+  minimumOrder      Decimal   @default(0.0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  tenant          Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  categories      Category[]
+  products        Product[]
+  optionGroups    OptionGroup[]
+  orders          Order[]
+
+  @@map("restaurants")
+}
+
+model Category {
+  id           String   @id @default(cuid())
+  restaurantId String
+  name         String
+  order        Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  products   Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  restaurantId String
+  categoryId   String
+  name         String
+  description  String?
+  basePrice    Decimal
+  active       Boolean  @default(true)
+  sku          String?
+  imageUrl     String?
+  stock        Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  restaurant         Restaurant           @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  category           Category             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  productOptionGroups ProductOptionGroup[]
+  orderItems         OrderItem[]
+
+  @@map("products")
+}
+
+model OptionGroup {
+  id           String   @id @default(cuid())
+  restaurantId String
+  name         String
+  description  String?
+  order        Int      @default(0)
+  required     Boolean  @default(false)
+  minSelect    Int      @default(0)
+  maxSelect    Int      @default(1)
+  freeQuota    Int      @default(0)
+  appliesToAll Boolean  @default(false)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  restaurant         Restaurant           @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  options            Option[]
+  productOptionGroups ProductOptionGroup[]
+
+  @@map("option_groups")
+}
+
+model ProductOptionGroup {
+  productId           String
+  optionGroupId       String
+  overrideMinSelect   Int?
+  overrideMaxSelect   Int?
+  overrideFreeQuota   Int?
+  order               Int @default(0)
+
+  // Relations
+  product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  optionGroup OptionGroup @relation(fields: [optionGroupId], references: [id], onDelete: Cascade)
+
+  @@id([productId, optionGroupId])
+  @@map("product_option_groups")
+}
+
+model Option {
+  id                String   @id @default(cuid())
+  optionGroupId     String
+  name              String
+  priceDelta        Decimal  @default(0.0)
+  active            Boolean  @default(true)
+  maxQuantityPerItem Int?
+  stock             Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  optionGroup       OptionGroup      @relation(fields: [optionGroupId], references: [id], onDelete: Cascade)
+  orderItemOptions  OrderItemOption[]
+
+  @@map("options")
+}
+
+model Customer {
+  id               String    @id @default(cuid())
+  tenantId         String
+  name             String
+  phone            String?
+  email            String?
+  defaultAddressId String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relations
+  tenant   Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  addresses Address[]
+  orders   Order[]
+
+  @@map("customers")
+}
+
+model Address {
+  id          String   @id @default(cuid())
+  customerId   String
+  label        String
+  street       String
+  number       String
+  neighborhood String
+  city         String
+  state        String
+  zip          String
+  lat          Decimal?
+  lng          Decimal?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
+}
+
+model Order {
+  id             String         @id @default(cuid())
+  restaurantId   String
+  customerId     String
+  status         OrderStatus    @default(PENDING)
+  fulfillment    FulfillmentType
+  paymentMethod  PaymentMethod
+  subtotal       Decimal
+  deliveryFee    Decimal        @default(0.0)
+  discount       Decimal        @default(0.0)
+  total          Decimal
+  notes          String?
+  affiliateId    String?
+  sourceUtm      String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  restaurant     Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  customer       Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  affiliate      Affiliate?     @relation(fields: [affiliateId], references: [id])
+  orderItems     OrderItem[]
+  orderEvents    OrderEvent[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  productId    String
+  nameSnapshot String
+  unitPrice    Decimal
+  quantity     Int
+  observations String?
+  createdAt    DateTime @default(now())
+
+  // Relations
+  order           Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product         Product          @relation(fields: [productId], references: [id])
+  orderItemOptions OrderItemOption[]
+
+  @@map("order_items")
+}
+
+model OrderItemOption {
+  id                    String   @id @default(cuid())
+  orderItemId           String
+  optionId              String
+  groupNameSnapshot     String
+  optionNameSnapshot    String
+  priceDeltaApplied     Decimal
+  quantity              Int       @default(1)
+  createdAt             DateTime @default(now())
+
+  // Relations
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  option    Option    @relation(fields: [optionId], references: [id])
+
+  @@map("order_item_options")
+}
+
+model OrderEvent {
+  id          String      @id @default(cuid())
+  orderId     String
+  actorUserId String?
+  fromStatus  OrderStatus?
+  toStatus    OrderStatus
+  notes       String?
+  ts          DateTime    @default(now())
+
+  // Relations
+  order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  actorUser User? @relation(fields: [actorUserId], references: [id])
+
+  @@map("order_events")
+}
+
+model Affiliate {
+  id            String   @id @default(cuid())
+  tenantId       String
+  userId        String?  @unique
+  code          String   @unique
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  payoutModel   String   @default("percent") // fixed, percent, offline
+  commissionRate Decimal @default(0.1) // 10%
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User?               @relation(fields: [userId], references: [id])
+  orders      Order[]
+  conversions AffiliateConversion[]
+
+  @@map("affiliates")
+}
+
+model AffiliateConversion {
+  id                  String   @id @default(cuid())
+  affiliateId         String
+  orderId             String
+  commissionEstimated Decimal
+  status              String   @default("pending") // pending, approved, paid_offline
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  affiliate Affiliate @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+
+  @@map("affiliate_conversions")
+}

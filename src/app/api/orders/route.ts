@@ -1,0 +1,225 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+import { UserRole, OrderStatus, FulfillmentType, PaymentMethod } from '@prisma/client'
+import { generateOrderCode } from '@/lib/utils'
+
+export async function GET(request: NextRequest) {
+  try {
+    const tenantId = request.headers.get('x-tenant-id')
+    const userRole = request.headers.get('x-user-role') as UserRole
+    const { searchParams } = new URL(request.url)
+    const status = searchParams.get('status') as OrderStatus
+    const restaurantId = searchParams.get('restaurantId')
+
+    if (!tenantId) {
+      return NextResponse.json(
+        { error: 'Tenant ID required' },
+        { status: 400 }
+      )
+    }
+
+    const whereClause: any = {
+      restaurant: {
+        tenantId,
+        ...(restaurantId && { id: restaurantId }),
+      },
+    }
+
+    if (status) {
+      whereClause.status = status
+    }
+
+    // Customers can only see their own orders
+    if (userRole === UserRole.CUSTOMER) {
+      const customerId = request.headers.get('x-customer-id')
+      if (!customerId) {
+        return NextResponse.json(
+          { error: 'Customer ID required' },
+          { status: 400 }
+        )
+      }
+      whereClause.customerId = customerId
+    }
+
+    const orders = await prisma.order.findMany({
+      where: whereClause,
+      include: {
+        customer: true,
+        restaurant: true,
+        orderItems: {
+          include: {
+            product: true,
+            orderItemOptions: {
+              include: {
+                option: true,
+              },
+            },
+          },
+        },
+        orderEvents: {
+          orderBy: { ts: 'desc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    })
+
+    return NextResponse.json(orders)
+  } catch (error) {
+    console.error('Get orders error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const data = await request.json()
+    const {
+      restaurantId,
+      customerId,
+      fulfillment,
+      paymentMethod,
+      items,
+      notes,
+      affiliateId,
+      sourceUtm,
+    } = data
+
+    // Validate restaurant exists and is accepting orders
+    const restaurant = await prisma.restaurant.findUnique({
+      where: { id: restaurantId },
+    })
+
+    if (!restaurant) {
+      return NextResponse.json(
+        { error: 'Restaurant not found' },
+        { status: 404 }
+      )
+    }
+
+    if (!restaurant.acceptingOrders) {
+      return NextResponse.json(
+        { error: 'Restaurant is not accepting orders' },
+        { status: 400 }
+      )
+    }
+
+    // Calculate totals
+    let subtotal = 0
+    const orderItems = []
+
+    for (const item of items) {
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId },
+        include: {
+          productOptionGroups: {
+            include: {
+              optionGroup: {
+                include: {
+                  options: true,
+                },
+              },
+            },
+          },
+        },
+      })
+
+      if (!product) {
+        return NextResponse.json(
+          { error: `Product ${item.productId} not found` },
+          { status: 400 }
+        )
+      }
+
+      let itemTotal = Number(product.basePrice)
+
+      // Calculate option prices
+      for (const selectedOption of item.options || []) {
+        const option = product.productOptionGroups
+          .flatMap(pog => pog.optionGroup.options)
+          .find(opt => opt.id === selectedOption.optionId)
+
+        if (option) {
+          itemTotal += Number(option.priceDelta) * selectedOption.quantity
+        }
+      }
+
+      subtotal += itemTotal * item.quantity
+      orderItems.push({
+        productId: item.productId,
+        nameSnapshot: product.name,
+        unitPrice: itemTotal,
+        quantity: item.quantity,
+        observations: item.observations,
+        options: item.options || [],
+      })
+    }
+
+    const deliveryFee = fulfillment === FulfillmentType.DELIVERY ? Number(restaurant.deliveryFee) : 0
+    const total = subtotal + deliveryFee
+
+    // Create order
+    const order = await prisma.order.create({
+      data: {
+        restaurantId,
+        customerId,
+        fulfillment: fulfillment as FulfillmentType,
+        paymentMethod: paymentMethod as PaymentMethod,
+        subtotal,
+        deliveryFee,
+        total,
+        notes,
+        affiliateId,
+        sourceUtm,
+        orderItems: {
+          create: orderItems.map(item => ({
+            productId: item.productId,
+            nameSnapshot: item.nameSnapshot,
+            unitPrice: item.unitPrice,
+            quantity: item.quantity,
+            observations: item.observations,
+            orderItemOptions: {
+              create: item.options.map(opt => ({
+                optionId: opt.optionId,
+                groupNameSnapshot: opt.groupName,
+                optionNameSnapshot: opt.optionName,
+                priceDeltaApplied: opt.priceDelta,
+                quantity: opt.quantity,
+              })),
+            },
+          })),
+        },
+        orderEvents: {
+          create: {
+            toStatus: OrderStatus.PENDING,
+            notes: 'Order created',
+          },
+        },
+      },
+      include: {
+        customer: true,
+        restaurant: true,
+        orderItems: {
+          include: {
+            product: true,
+            orderItemOptions: {
+              include: {
+                option: true,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return NextResponse.json(order)
+  } catch (error) {
+    console.error('Create order error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
