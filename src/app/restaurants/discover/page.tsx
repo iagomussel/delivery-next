@@ -363,7 +363,8 @@ export default function DiscoverRestaurantsPage() {
                               (entry: any) => entry && typeof entry.open === 'string' && typeof entry.close === 'string'
                             );
                             if (firstEntry) {
-                              return `${firstEntry.open} - ${firstEntry.close}`;
+                              const e: any = firstEntry as any;
+                              return `${e.open} - ${e.close}`;
                             }
                             return 'Horário não informado';
                           })()}

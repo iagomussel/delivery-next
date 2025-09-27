@@ -64,10 +64,7 @@ export default function RestaurantUsersPage() {
   })
   const [, setAddingUser] = useState(false)
 
-  useEffect(() => {
-    loadRestaurant()
-    loadUsers()
-  }, [loadRestaurant, loadUsers])
+  // moved useEffect below to avoid use-before-declare type error
 
   const loadRestaurant = useCallback(async () => {
     try {
@@ -102,6 +99,11 @@ export default function RestaurantUsersPage() {
       setLoading(false)
     }
   }, [restaurantId])
+  
+  useEffect(() => {
+    loadRestaurant()
+    loadUsers()
+  }, [loadRestaurant, loadUsers])
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault()

@@ -33,13 +33,12 @@ export function verifyToken(token: string): JWTPayload | null {
 }
 
 export function hasPermission(userRole: UserRole, requiredRole: UserRole): boolean {
-  const roleHierarchy = {
-    [UserRole.CUSTOMER]: 0,
-    [UserRole.AFFILIATE]: 1,
-    [UserRole.STAFF]: 2,
-    [UserRole.OWNER]: 3,
-    [UserRole.ADMIN]: 4,
+  const roleHierarchy: Record<UserRole, number> = {
+    CUSTOMER: 0,
+    AFFILIATE: 1,
+    STAFF: 2,
+    OWNER: 3,
+    ADMIN: 4,
   }
-
   return roleHierarchy[userRole] >= roleHierarchy[requiredRole]
 }
