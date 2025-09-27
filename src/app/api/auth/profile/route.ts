@@ -34,7 +34,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json()
     const { name, password } = body as { name?: string; password?: string }
 
-    const data: any = {}
+    const data: Record<string, unknown> = {}
     if (typeof name === 'string' && name.trim().length > 1) data.name = name.trim()
     if (typeof password === 'string' && password.length >= 6) data.passwordHash = await hashPassword(password)
 

@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
-import { UserRole } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
     if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
@@ -11,7 +13,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: { id: true, name: true, email: true, role: true, active: true, tenantId: true }
     })
     if (!user || user.tenantId !== decoded.tenantId) return NextResponse.json({ error: 'Not found' }, { status: 404 })
@@ -22,19 +24,20 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
     if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
     const decoded = verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    if (decoded.role !== UserRole.OWNER && decoded.role !== UserRole.ADMIN) {
+    if (decoded.role !== 'OWNER' && decoded.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 })
     }
 
     const { name, role, active } = await request.json()
     const updated = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(typeof name === 'string' ? { name } : {}),
         ...(typeof role === 'string' ? { role: role.toUpperCase() as UserRole } : {}),
@@ -49,17 +52,18 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
     if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
     const decoded = verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    if (decoded.role !== UserRole.OWNER && decoded.role !== UserRole.ADMIN) {
+    if (decoded.role !== 'OWNER' && decoded.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 })
     }
 
-    await prisma.user.delete({ where: { id: params.id } })
+    await prisma.user.delete({ where: { id } })
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('Employee DELETE error:', err)

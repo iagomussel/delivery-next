@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
-import { UserRole, OrderStatus, FulfillmentType, PaymentMethod } from '@prisma/client'
+// Enums are now strings in the schema
+type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELED'
+type FulfillmentType = 'DELIVERY' | 'PICKUP'
+type PaymentMethod = 'CASH' | 'PIX' | 'DEBIT' | 'CREDIT' | 'VOUCHER' | 'OTHER'
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,7 +23,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') as OrderStatus
     const restaurantId = searchParams.get('restaurantId')
 
-    const whereClause: any = {
+    const whereClause: Record<string, unknown> = {
       restaurant: {
         tenantId: decoded.tenantId,
         ...(restaurantId && { id: restaurantId }),
@@ -171,7 +174,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const deliveryFee = fulfillment === FulfillmentType.DELIVERY ? Number(restaurant.deliveryFee) : 0
+    const deliveryFee = fulfillment === 'DELIVERY' ? Number(restaurant.deliveryFee) : 0
     const total = subtotal + deliveryFee
 
     // Create order
@@ -195,7 +198,7 @@ export async function POST(request: NextRequest) {
             quantity: item.quantity,
             observations: item.observations,
             orderItemOptions: {
-              create: item.options.map(opt => ({
+              create: item.options.map((opt: Record<string, unknown>) => ({
                 optionId: opt.optionId,
                 groupNameSnapshot: opt.groupName,
                 optionNameSnapshot: opt.optionName,
@@ -207,7 +210,7 @@ export async function POST(request: NextRequest) {
         },
         orderEvents: {
           create: {
-            toStatus: OrderStatus.PENDING,
+            toStatus: 'PENDING',
             notes: 'Order created',
           },
         },

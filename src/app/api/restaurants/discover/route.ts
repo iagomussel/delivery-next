@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20')
 
     // Build where clause for filtering
-    const whereClause: any = {
+    const whereClause: Record<string, unknown> = {
       // Only show restaurants that are active and have at least one category
       categories: {
         some: {

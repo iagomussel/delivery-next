@@ -50,7 +50,7 @@ export default function LoginPage() {
       } else {
         setError(data.error || 'Erro ao fazer login')
       }
-    } catch (error) {
+    } catch {
       setError('Erro de conexão. Tente novamente.')
     } finally {
       setLoading(false)

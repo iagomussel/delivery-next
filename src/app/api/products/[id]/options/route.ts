@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
     if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
     // Validate product belongs to tenant via restaurant
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { restaurant: true },
     })
     if (!product || product.restaurant.tenantId !== decoded.tenantId) {
@@ -24,11 +25,10 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     }
 
     // Remove existing relations then add the provided ones (simple replace strategy)
-    await prisma.productOptionGroup.deleteMany({ where: { productId: params.id } })
+    await prisma.productOptionGroup.deleteMany({ where: { productId: id } })
     if (optionGroupIds.length) {
       await prisma.productOptionGroup.createMany({
-        data: optionGroupIds.map((ogId, idx) => ({ productId: params.id, optionGroupId: ogId, order: idx })),
-        skipDuplicates: true,
+        data: optionGroupIds.map((ogId, idx) => ({ productId: id, optionGroupId: ogId, order: idx })),
       })
     }
 

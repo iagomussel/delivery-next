@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -16,13 +16,10 @@ import {
   MoreHorizontal,
   User,
   Mail,
-  Phone,
   Shield,
   Edit,
-  Trash2,
   UserPlus,
-  X,
-  Check
+  X
 } from 'lucide-react'
 
 interface User {
@@ -42,14 +39,20 @@ interface NewUserForm {
   role: 'STAFF' | 'AFFILIATE'
 }
 
+interface Restaurant {
+  id: string
+  name: string
+}
+
 export default function RestaurantUsersPage() {
   const params = useParams()
   const router = useRouter()
   const restaurantId = params.id as string
   
   const [users, setUsers] = useState<User[]>([])
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null)
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm] = useState('')
   const [roleFilter, setRoleFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [showAddUser, setShowAddUser] = useState(false)
@@ -59,13 +62,26 @@ export default function RestaurantUsersPage() {
     password: '',
     role: 'STAFF'
   })
-  const [addingUser, setAddingUser] = useState(false)
+  const [, setAddingUser] = useState(false)
 
   useEffect(() => {
+    loadRestaurant()
     loadUsers()
+  }, [loadRestaurant, loadUsers])
+
+  const loadRestaurant = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/restaurants/${restaurantId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setRestaurant(data)
+      }
+    } catch (error) {
+      console.error('Error loading restaurant:', error)
+    }
   }, [restaurantId])
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`/api/restaurants/${restaurantId}/users`, {
@@ -85,7 +101,7 @@ export default function RestaurantUsersPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [restaurantId])
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -199,7 +215,7 @@ export default function RestaurantUsersPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Gerenciar Usuários - {restaurantName}</h1>
+                <h1 className="text-2xl font-bold text-foreground">Gerenciar Usuários - {restaurant?.name || 'Carregando...'}</h1>
                 <p className="text-sm text-muted-foreground">Adicione e gerencie usuários do seu restaurante</p>
               </div>
             </div>

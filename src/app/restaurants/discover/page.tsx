@@ -357,7 +357,16 @@ export default function DiscoverRestaurantsPage() {
                       <div className="flex items-center text-sm text-gray-600">
                         <Clock className="h-4 w-4 mr-1" />
                         <span>
-                          {Object.values(restaurant.openingHours)[0]?.open} - {Object.values(restaurant.openingHours)[0]?.close}
+                          {(() => {
+                            // Try to get the first opening hour entry with open/close fields
+                            const firstEntry = Object.values(restaurant.openingHours ?? {}).find(
+                              (entry: any) => entry && typeof entry.open === 'string' && typeof entry.close === 'string'
+                            );
+                            if (firstEntry) {
+                              return `${firstEntry.open} - ${firstEntry.close}`;
+                            }
+                            return 'Horário não informado';
+                          })()}
                         </span>
                       </div>
                     </div>

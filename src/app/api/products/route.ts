@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const restaurantId = searchParams.get('restaurantId')
     const categoryId = searchParams.get('categoryId')
 
-    const whereClause: any = {
+    const whereClause: Record<string, unknown> = {
       restaurant: {
         tenantId: decoded.tenantId,
         ...(restaurantId && { id: restaurantId }),
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
         imageUrl,
         stock,
         productOptionGroups: {
-          create: optionGroups?.map((og: any, index: number) => ({
+          create: optionGroups?.map((og: Record<string, unknown>, index: number) => ({
             optionGroupId: og.optionGroupId,
             overrideMinSelect: og.overrideMinSelect,
             overrideMaxSelect: og.overrideMaxSelect,

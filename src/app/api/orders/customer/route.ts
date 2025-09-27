@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
-import { OrderStatus, FulfillmentType, PaymentMethod } from '@prisma/client'
+// Enums are now strings in the schema
+type FulfillmentType = 'DELIVERY' | 'PICKUP'
+type PaymentMethod = 'CASH' | 'PIX' | 'DEBIT' | 'CREDIT' | 'VOUCHER' | 'OTHER'
 
 export async function POST(request: NextRequest) {
   try {
@@ -70,9 +72,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Create address if delivery
-    let addressId = null
     if (fulfillment === 'DELIVERY' && deliveryAddress) {
-      const address = await prisma.address.create({
+      await prisma.address.create({
         data: {
           customerId: customer.id,
           label: 'Delivery Address',
@@ -85,7 +86,6 @@ export async function POST(request: NextRequest) {
           notes: deliveryAddress.notes,
         }
       })
-      addressId = address.id
     }
 
     // Calculate totals
@@ -147,11 +147,11 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const deliveryFee = fulfillment === FulfillmentType.DELIVERY ? Number(restaurant.deliveryFee) : 0
+    const deliveryFee = fulfillment === 'DELIVERY' ? Number(restaurant.deliveryFee) : 0
     const total = subtotal + deliveryFee
 
     // Check minimum order
-    if (restaurant.minimumOrder > 0 && subtotal < Number(restaurant.minimumOrder)) {
+    if (Number(restaurant.minimumOrder) > 0 && subtotal < Number(restaurant.minimumOrder)) {
       return NextResponse.json(
         { error: `Minimum order is R$ ${Number(restaurant.minimumOrder).toFixed(2)}` },
         { status: 400 }
@@ -183,7 +183,7 @@ export async function POST(request: NextRequest) {
         },
         orderEvents: {
           create: {
-            toStatus: OrderStatus.PENDING,
+            toStatus: 'PENDING',
             notes: 'Order created by customer',
           },
         },

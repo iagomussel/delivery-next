@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   ArrowLeft,
@@ -13,9 +13,6 @@ import {
   MoreHorizontal,
   Package,
   Edit,
-  Trash2,
-  Eye,
-  EyeOff,
   DollarSign,
   Tag
 } from 'lucide-react'

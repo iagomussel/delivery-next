@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
   ShoppingCart, 
   Users, 
   Package, 
   TrendingUp, 
-  Plus,
   Settings,
   LogOut,
   Store,
@@ -57,7 +56,7 @@ export default function DashboardPage() {
 
     setUser(JSON.parse(userData))
     loadDashboardData()
-  }, [])
+  }, [router])
 
   const loadDashboardData = async () => {
     try {

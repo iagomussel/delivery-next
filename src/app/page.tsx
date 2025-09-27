@@ -8,8 +8,6 @@ import {
   Star, 
   Smartphone, 
   CreditCard,
-  Truck,
-  Users,
   Shield,
   Search
 } from 'lucide-react'
