@@ -56,39 +56,7 @@ export default function EmployeesPage() {
         const data = await response.json()
         setEmployees(data)
       } else {
-        // Mock data for demonstration
-        setEmployees([
-          {
-            id: '1',
-            name: 'João Silva',
-            email: 'joao@restaurant.com',
-            phone: '(11) 99999-9999',
-            role: 'admin',
-            status: 'active',
-            createdAt: '2024-01-15T10:00:00Z',
-            lastLogin: '2024-01-20T14:30:00Z'
-          },
-          {
-            id: '2',
-            name: 'Maria Santos',
-            email: 'maria@restaurant.com',
-            phone: '(11) 88888-8888',
-            role: 'manager',
-            status: 'active',
-            createdAt: '2024-01-10T09:00:00Z',
-            lastLogin: '2024-01-20T12:15:00Z'
-          },
-          {
-            id: '3',
-            name: 'Pedro Costa',
-            email: 'pedro@restaurant.com',
-            phone: '(11) 77777-7777',
-            role: 'staff',
-            status: 'active',
-            createdAt: '2024-01-05T08:00:00Z',
-            lastLogin: '2024-01-19T16:45:00Z'
-          }
-        ])
+        console.error('Failed to load employees')
       }
     } catch (error) {
       console.error('Error loading employees:', error)

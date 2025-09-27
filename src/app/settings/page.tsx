@@ -127,23 +127,7 @@ export default function SettingsPage() {
         const data = await response.json()
         setSettings(data)
       } else {
-        // Mock data for demonstration
-        setSettings(prev => ({
-          ...prev,
-          name: 'Pizzaria do João',
-          description: 'A melhor pizzaria da região com ingredientes frescos e sabores únicos.',
-          phone: '(11) 99999-9999',
-          email: 'contato@pizzariadojoao.com',
-          website: 'https://pizzariadojoao.com',
-          address: {
-            street: 'Rua das Flores',
-            number: '123',
-            neighborhood: 'Centro',
-            city: 'São Paulo',
-            state: 'SP',
-            zip: '01234-567'
-          }
-        }))
+        console.error('Failed to load settings')
       }
     } catch (error) {
       console.error('Error loading settings:', error)

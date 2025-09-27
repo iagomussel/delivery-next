@@ -67,67 +67,7 @@ export default function RestaurantsPage() {
         const data = await response.json()
         setRestaurants(data)
       } else {
-        // Mock data for demonstration
-        setRestaurants([
-          {
-            id: '1',
-            name: 'Pizzaria do João',
-            slug: 'pizzaria-do-joao',
-            address: {
-              street: 'Rua das Flores',
-              number: '123',
-              neighborhood: 'Centro',
-              city: 'São Paulo',
-              state: 'SP',
-              zip: '01234-567'
-            },
-            openingHours: {
-              monday: { open: '18:00', close: '23:00' },
-              tuesday: { open: '18:00', close: '23:00' },
-              wednesday: { open: '18:00', close: '23:00' },
-              thursday: { open: '18:00', close: '23:00' },
-              friday: { open: '18:00', close: '23:00' },
-              saturday: { open: '18:00', close: '23:00' },
-              sunday: { open: '18:00', close: '23:00' }
-            },
-            acceptingOrders: true,
-            deliveryFee: 5.0,
-            minimumOrder: 25.0,
-            deliveryRadiusKm: 5.0,
-            pickupEnabled: true,
-            createdAt: '2024-01-15T10:00:00Z',
-            updatedAt: '2024-01-20T14:30:00Z'
-          },
-          {
-            id: '2',
-            name: 'Hamburgueria Artesanal',
-            slug: 'hamburgueria-artesanal',
-            address: {
-              street: 'Av. Paulista',
-              number: '456',
-              neighborhood: 'Bela Vista',
-              city: 'São Paulo',
-              state: 'SP',
-              zip: '01310-100'
-            },
-            openingHours: {
-              monday: { open: '11:00', close: '22:00' },
-              tuesday: { open: '11:00', close: '22:00' },
-              wednesday: { open: '11:00', close: '22:00' },
-              thursday: { open: '11:00', close: '22:00' },
-              friday: { open: '11:00', close: '22:00' },
-              saturday: { open: '11:00', close: '22:00' },
-              sunday: { open: '11:00', close: '22:00' }
-            },
-            acceptingOrders: false,
-            deliveryFee: 3.0,
-            minimumOrder: 30.0,
-            deliveryRadiusKm: 3.0,
-            pickupEnabled: true,
-            createdAt: '2024-01-10T09:00:00Z',
-            updatedAt: '2024-01-19T16:45:00Z'
-          }
-        ])
+        console.error('Failed to load restaurants')
       }
     } catch (error) {
       console.error('Error loading restaurants:', error)

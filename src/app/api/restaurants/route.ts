@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { verifyToken } from '@/lib/auth'
 import { UserRole } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const slug = searchParams.get('slug')
-    const tenantId = request.headers.get('x-tenant-id')
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
 
     if (slug) {
       // Public endpoint to get restaurant by slug
@@ -50,16 +51,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(restaurant)
     }
 
-    // Get restaurants for tenant
-    if (!tenantId) {
-      return NextResponse.json(
-        { error: 'Tenant ID required' },
-        { status: 400 }
-      )
+    // Get restaurants for authenticated user's tenant
+    if (!token) {
+      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    }
+
+    const decoded = verifyToken(token)
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
     const restaurants = await prisma.restaurant.findMany({
-      where: { tenantId },
+      where: { tenantId: decoded.tenantId },
       include: {
         _count: {
           select: {
@@ -82,17 +85,18 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const tenantId = request.headers.get('x-tenant-id')
-    const userRole = request.headers.get('x-user-role') as UserRole
-
-    if (!tenantId) {
-      return NextResponse.json(
-        { error: 'Tenant ID required' },
-        { status: 400 }
-      )
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    
+    if (!token) {
+      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
     }
 
-    if (userRole !== UserRole.OWNER && userRole !== UserRole.ADMIN) {
+    const decoded = verifyToken(token)
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
+    if (decoded.role !== 'OWNER' && decoded.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -104,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     const restaurant = await prisma.restaurant.create({
       data: {
-        tenantId,
+        tenantId: decoded.tenantId,
         name,
         slug: name.toLowerCase().replace(/\s+/g, '-'),
         address,

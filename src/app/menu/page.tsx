@@ -78,75 +78,14 @@ export default function MenuManagementPage() {
         const categoriesData = await categoriesResponse.json()
         setCategories(categoriesData)
       } else {
-        // Mock data for demonstration
-        setCategories([
-          {
-            id: '1',
-            name: 'Pratos Principais',
-            description: 'Pratos principais do cardápio',
-            order: 1,
-            isActive: true,
-            productCount: 8,
-            createdAt: '2024-01-15T10:00:00Z'
-          },
-          {
-            id: '2',
-            name: 'Bebidas',
-            description: 'Bebidas e refrigerantes',
-            order: 2,
-            isActive: true,
-            productCount: 12,
-            createdAt: '2024-01-15T10:00:00Z'
-          },
-          {
-            id: '3',
-            name: 'Sobremesas',
-            description: 'Doces e sobremesas',
-            order: 3,
-            isActive: false,
-            productCount: 5,
-            createdAt: '2024-01-15T10:00:00Z'
-          }
-        ])
+        console.error('Failed to load categories')
       }
 
       if (productsResponse.ok) {
         const productsData = await productsResponse.json()
         setProducts(productsData)
       } else {
-        // Mock data for demonstration
-        setProducts([
-          {
-            id: '1',
-            name: 'Hambúrguer Clássico',
-            description: 'Hambúrguer com carne, alface, tomate e queijo',
-            basePrice: 25.90,
-            isActive: true,
-            categoryId: '1',
-            categoryName: 'Pratos Principais',
-            createdAt: '2024-01-15T10:00:00Z'
-          },
-          {
-            id: '2',
-            name: 'Coca-Cola 350ml',
-            description: 'Refrigerante Coca-Cola 350ml',
-            basePrice: 4.50,
-            isActive: true,
-            categoryId: '2',
-            categoryName: 'Bebidas',
-            createdAt: '2024-01-15T10:00:00Z'
-          },
-          {
-            id: '3',
-            name: 'Pudim de Leite',
-            description: 'Pudim de leite condensado',
-            basePrice: 8.90,
-            isActive: false,
-            categoryId: '3',
-            categoryName: 'Sobremesas',
-            createdAt: '2024-01-15T10:00:00Z'
-          }
-        ])
+        console.error('Failed to load products')
       }
     } catch (error) {
       console.error('Error loading menu data:', error)

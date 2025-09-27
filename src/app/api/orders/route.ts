@@ -1,26 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { verifyToken } from '@/lib/auth'
 import { UserRole, OrderStatus, FulfillmentType, PaymentMethod } from '@prisma/client'
-import { generateOrderCode } from '@/lib/utils'
 
 export async function GET(request: NextRequest) {
   try {
-    const tenantId = request.headers.get('x-tenant-id')
-    const userRole = request.headers.get('x-user-role') as UserRole
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    
+    if (!token) {
+      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    }
+
+    const decoded = verifyToken(token)
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status') as OrderStatus
     const restaurantId = searchParams.get('restaurantId')
 
-    if (!tenantId) {
-      return NextResponse.json(
-        { error: 'Tenant ID required' },
-        { status: 400 }
-      )
-    }
-
     const whereClause: any = {
       restaurant: {
-        tenantId,
+        tenantId: decoded.tenantId,
         ...(restaurantId && { id: restaurantId }),
       },
     }
@@ -30,15 +32,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Customers can only see their own orders
-    if (userRole === UserRole.CUSTOMER) {
-      const customerId = request.headers.get('x-customer-id')
-      if (!customerId) {
-        return NextResponse.json(
-          { error: 'Customer ID required' },
-          { status: 400 }
-        )
-      }
-      whereClause.customerId = customerId
+    if (decoded.role === 'CUSTOMER') {
+      // For customers, we'd need to get customer ID from user
+      // For now, we'll skip this since we're focusing on restaurant management
+      return NextResponse.json({ error: 'Customer access not implemented' }, { status: 403 })
     }
 
     const orders = await prisma.order.findMany({
@@ -63,7 +60,24 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     })
 
-    return NextResponse.json(orders)
+    // Format orders for frontend
+    const formattedOrders = orders.map(order => ({
+      id: order.id,
+      customerName: order.customer.name,
+      customerPhone: order.customer.phone || '',
+      status: order.status.toLowerCase(),
+      total: Number(order.total),
+      items: order.orderItems.map(item => ({
+        id: item.id,
+        name: item.nameSnapshot,
+        quantity: item.quantity,
+        price: Number(item.unitPrice)
+      })),
+      createdAt: order.createdAt.toISOString(),
+      updatedAt: order.updatedAt.toISOString()
+    }))
+
+    return NextResponse.json(formattedOrders)
   } catch (error) {
     console.error('Get orders error:', error)
     return NextResponse.json(

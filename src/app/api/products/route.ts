@@ -1,29 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { UserRole } from '@prisma/client'
+import { verifyToken } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const tenantId = request.headers.get('x-tenant-id')
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    
+    if (!token) {
+      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    }
+
+    const decoded = verifyToken(token)
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const restaurantId = searchParams.get('restaurantId')
+    const categoryId = searchParams.get('categoryId')
 
-    if (!tenantId) {
-      return NextResponse.json(
-        { error: 'Tenant ID required' },
-        { status: 400 }
-      )
+    const whereClause: any = {
+      restaurant: {
+        tenantId: decoded.tenantId,
+        ...(restaurantId && { id: restaurantId }),
+      },
+      ...(categoryId && { categoryId }),
     }
 
     const products = await prisma.product.findMany({
-      where: {
-        restaurant: {
-          tenantId,
-          ...(restaurantId && { id: restaurantId }),
-        },
-      },
+      where: whereClause,
       include: {
         category: true,
+        restaurant: true,
         productOptionGroups: {
           include: {
             optionGroup: {
@@ -41,7 +49,20 @@ export async function GET(request: NextRequest) {
       orderBy: { name: 'asc' },
     })
 
-    return NextResponse.json(products)
+    // Format products for frontend
+    const formattedProducts = products.map(product => ({
+      id: product.id,
+      name: product.name,
+      description: product.description || '',
+      basePrice: Number(product.basePrice),
+      imageUrl: product.imageUrl,
+      isActive: product.active,
+      categoryId: product.categoryId,
+      categoryName: product.category.name,
+      createdAt: product.createdAt.toISOString()
+    }))
+
+    return NextResponse.json(formattedProducts)
   } catch (error) {
     console.error('Get products error:', error)
     return NextResponse.json(
@@ -53,17 +74,18 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const tenantId = request.headers.get('x-tenant-id')
-    const userRole = request.headers.get('x-user-role') as UserRole
-
-    if (!tenantId) {
-      return NextResponse.json(
-        { error: 'Tenant ID required' },
-        { status: 400 }
-      )
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    
+    if (!token) {
+      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
     }
 
-    if (userRole !== UserRole.OWNER && userRole !== UserRole.STAFF && userRole !== UserRole.ADMIN) {
+    const decoded = verifyToken(token)
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
+    if (decoded.role !== 'OWNER' && decoded.role !== 'STAFF' && decoded.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -71,7 +93,29 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await request.json()
-    const { restaurantId, categoryId, name, description, basePrice, sku, imageUrl, stock } = data
+    const {
+      restaurantId,
+      categoryId,
+      name,
+      description,
+      basePrice,
+      sku,
+      imageUrl,
+      stock,
+      optionGroups,
+    } = data
+
+    // Verify restaurant belongs to tenant
+    const restaurant = await prisma.restaurant.findFirst({
+      where: { id: restaurantId, tenantId: decoded.tenantId },
+    })
+
+    if (!restaurant) {
+      return NextResponse.json(
+        { error: 'Restaurant not found' },
+        { status: 404 }
+      )
+    }
 
     const product = await prisma.product.create({
       data: {
@@ -83,6 +127,28 @@ export async function POST(request: NextRequest) {
         sku,
         imageUrl,
         stock,
+        productOptionGroups: {
+          create: optionGroups?.map((og: any, index: number) => ({
+            optionGroupId: og.optionGroupId,
+            overrideMinSelect: og.overrideMinSelect,
+            overrideMaxSelect: og.overrideMaxSelect,
+            overrideFreeQuota: og.overrideFreeQuota,
+            order: index,
+          })) || [],
+        },
+      },
+      include: {
+        category: true,
+        restaurant: true,
+        productOptionGroups: {
+          include: {
+            optionGroup: {
+              include: {
+                options: true,
+              },
+            },
+          },
+        },
       },
     })
 
