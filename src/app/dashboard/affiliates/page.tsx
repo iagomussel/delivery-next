@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import AffiliatesTable from '@/components/tables/AffiliatesTable'
 
 export default function AffiliatesPage() {
   return (
@@ -21,11 +22,9 @@ export default function AffiliatesPage() {
           <CardTitle className="text-foreground">Lista de afiliados</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* TODO: Tabela de afiliados */}
-          <p className="text-muted-foreground">Tabela em breve.</p>
+          <AffiliatesTable />
         </CardContent>
       </Card>
     </div>
   )
 }
-

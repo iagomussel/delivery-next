@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import ProductTable from '@/components/tables/ProductTable'
 
 export default function ProductsPage() {
   return (
@@ -16,8 +17,7 @@ export default function ProductsPage() {
           <CardTitle className="text-foreground">Lista de produtos</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* TODO: Wire ProductTable with data */}
-          <p className="text-muted-foreground">Tabela de produtos em breve.</p>
+          <ProductTable />
         </CardContent>
       </Card>
     </div>
