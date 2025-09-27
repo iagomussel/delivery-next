@@ -233,7 +233,7 @@ export default function CreateOrderPage() {
                         className="text-orange-600"
                       />
                       <div className="flex items-center">
-                        <MapPin className="h-5 w-5 text-gray-400 mr-2" />
+                        <MapPin className="h-5 w-5 mr-2" />
                         <div>
                           <div className="font-medium">Entrega</div>
                           <div className="text-sm text-gray-600">
@@ -252,7 +252,7 @@ export default function CreateOrderPage() {
                         className="text-orange-600"
                       />
                       <div className="flex items-center">
-                        <Clock className="h-5 w-5 text-gray-400 mr-2" />
+                        <Clock className="h-5 w-5 mr-2" />
                         <div>
                           <div className="font-medium">Retirada</div>
                           <div className="text-sm text-gray-600">
@@ -351,7 +351,7 @@ export default function CreateOrderPage() {
                         className="text-orange-600"
                       />
                       <div className="flex items-center">
-                        <Banknote className="h-5 w-5 text-gray-400 mr-2" />
+                        <Banknote className="h-5 w-5 mr-2" />
                         <span>Dinheiro</span>
                       </div>
                     </label>
@@ -365,7 +365,7 @@ export default function CreateOrderPage() {
                         className="text-orange-600"
                       />
                       <div className="flex items-center">
-                        <Smartphone className="h-5 w-5 text-gray-400 mr-2" />
+                        <Smartphone className="h-5 w-5 mr-2" />
                         <span>PIX</span>
                       </div>
                     </label>
@@ -379,7 +379,7 @@ export default function CreateOrderPage() {
                         className="text-orange-600"
                       />
                       <div className="flex items-center">
-                        <CreditCard className="h-5 w-5 text-gray-400 mr-2" />
+                        <CreditCard className="h-5 w-5 mr-2" />
                         <span>Cartão na entrega</span>
                       </div>
                     </label>

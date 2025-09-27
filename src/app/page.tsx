@@ -82,7 +82,7 @@ export default function HomePage() {
                 <CardTitle>Entrega Rápida</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Receba seu pedido em até 30 minutos. Acompanhe em tempo real.
                 </CardDescription>
               </CardContent>
@@ -94,7 +94,7 @@ export default function HomePage() {
                 <CardTitle>Cobertura Total</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Entregamos em toda a cidade. Encontre restaurantes perto de você.
                 </CardDescription>
               </CardContent>
@@ -106,7 +106,7 @@ export default function HomePage() {
                 <CardTitle>Qualidade Garantida</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Restaurantes selecionados e avaliados pelos nossos clientes.
                 </CardDescription>
               </CardContent>
@@ -118,7 +118,7 @@ export default function HomePage() {
                 <CardTitle>Fácil de Usar</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Interface simples e intuitiva. Faça seu pedido em poucos cliques.
                 </CardDescription>
               </CardContent>
@@ -130,7 +130,7 @@ export default function HomePage() {
                 <CardTitle>Pagamento Seguro</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Pague com cartão, PIX ou dinheiro. Seus dados sempre protegidos.
                 </CardDescription>
               </CardContent>
@@ -142,7 +142,7 @@ export default function HomePage() {
                 <CardTitle>Suporte 24/7</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription>
                   Nossa equipe está sempre pronta para ajudar você.
                 </CardDescription>
               </CardContent>
