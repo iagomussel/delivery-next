@@ -1,0 +1,43 @@
+import Link from 'next/link'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+export default function AdminHomePage() {
+  return (
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-semibold text-foreground">Admin</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card asChild>
+          <Link href="/admin/tenants" className="block">
+            <CardHeader>
+              <CardTitle className="text-foreground">Tenants</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Gerenciar clientes (tenants)</p>
+            </CardContent>
+          </Link>
+        </Card>
+        <Card asChild>
+          <Link href="/admin/users" className="block">
+            <CardHeader>
+              <CardTitle className="text-foreground">Usuários</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Gerenciar usuários</p>
+            </CardContent>
+          </Link>
+        </Card>
+        <Card asChild>
+          <Link href="/admin/monitoring" className="block">
+            <CardHeader>
+              <CardTitle className="text-foreground">Monitoramento</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Saúde do sistema</p>
+            </CardContent>
+          </Link>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
