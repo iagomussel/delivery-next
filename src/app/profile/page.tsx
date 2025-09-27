@@ -267,7 +267,7 @@ export default function CustomerProfilePage() {
                     />
                   ) : (
                     <div className="flex items-center mt-1">
-                      <User className="h-4 w-4 text-gray-500 mr-2" />
+                      <User className="h-4 w-4 mr-2" />
                       <span className="text-gray-900">{profile.name || 'Não informado'}</span>
                     </div>
                   )}
@@ -284,7 +284,7 @@ export default function CustomerProfilePage() {
                     />
                   ) : (
                     <div className="flex items-center mt-1">
-                      <Mail className="h-4 w-4 text-gray-500 mr-2" />
+                      <Mail className="h-4 w-4 mr-2" />
                       <span className="text-gray-900">{profile.email || 'Não informado'}</span>
                     </div>
                   )}
@@ -301,7 +301,7 @@ export default function CustomerProfilePage() {
                     />
                   ) : (
                     <div className="flex items-center mt-1">
-                      <Phone className="h-4 w-4 text-gray-500 mr-2" />
+                      <Phone className="h-4 w-4 mr-2" />
                       <span className="text-gray-900">{profile.phone || 'Não informado'}</span>
                     </div>
                   )}
@@ -322,7 +322,7 @@ export default function CustomerProfilePage() {
               <CardContent>
                 {orders.length === 0 ? (
                   <div className="text-center py-8">
-                    <Package className="h-12 w-12 text-gray-500 mx-auto mb-4" />
+                    <Package className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum pedido ainda</h3>
                     <p className="text-gray-600 mb-4">
                       Quando você fizer seu primeiro pedido, ele aparecerá aqui.

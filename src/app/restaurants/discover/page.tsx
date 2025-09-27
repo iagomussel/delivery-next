@@ -266,7 +266,7 @@ export default function DiscoverRestaurantsPage() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
                 <Input
                   type="text"
                   placeholder="Buscar restaurantes, pratos ou categorias..."
@@ -278,7 +278,7 @@ export default function DiscoverRestaurantsPage() {
             </div>
             <div className="flex gap-2">
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
                 <Input
                   type="text"
                   placeholder="Bairro ou cidade..."
@@ -310,7 +310,7 @@ export default function DiscoverRestaurantsPage() {
         {filteredRestaurants.length === 0 ? (
           <Card>
             <CardContent className="text-center py-12">
-              <Store className="h-12 w-12 text-gray-500 mx-auto mb-4" />
+              <Store className="h-12 w-12 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum restaurante encontrado</h3>
               <p className="text-gray-600 mb-4">
                 {searchTerm || locationFilter || statusFilter !== 'all'
