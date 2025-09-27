@@ -17,14 +17,14 @@ Based on the current implementation, this document identifies all missing files,
 
 - [ ] **Customer Order Flow** (`/src/app/order/`)
   - [x] Order creation page (`/src/app/order/create/page.tsx`)
-  - [ ] Order confirmation (`/src/app/order/confirm/page.tsx`)
+  - [x] Order confirmation (`/src/app/order/confirm/page.tsx`)
   - [x] Order tracking (`/src/app/order/[id]/page.tsx`)
-  - [ ] Order history (`/src/app/order/history/page.tsx`)
+  - [x] Order history (`/src/app/order/history/page.tsx`)
 
 - [ ] **Customer Profile** (`/src/app/profile/`)
   - [x] Profile management (`/src/app/profile/page.tsx`)
-  - [ ] Address management (`/src/app/profile/addresses/page.tsx`)
-  - [ ] Order history (`/src/app/profile/orders/page.tsx`)
+  - [x] Address management (`/src/app/profile/addresses/page.tsx`)
+  - [x] Order history (`/src/app/profile/orders/page.tsx`)
 
 ### 🏪 **Restaurant Management Features**
 - [ ] **Product Management** (`/src/app/dashboard/products/`)
@@ -104,16 +104,16 @@ Based on the current implementation, this document identifies all missing files,
   - [x] CRUD operations (`/src/app/api/staff/route.ts`)
   - [x] Individual operations (`/src/app/api/staff/[id]/route.ts`)
 
-- [ ] **Customer Management** (`/src/app/api/customers/`)
-  - [ ] CRUD operations (`/src/app/api/customers/route.ts`)
-  - [ ] Individual operations (`/src/app/api/customers/[id]/route.ts`)
+- [x] **Customer Management** (`/src/app/api/customers/`)
+  - [x] CRUD operations (`/src/app/api/customers/route.ts`)
+  - [x] Individual operations (`/src/app/api/customers/[id]/route.ts`)
 
-- [ ] **Address Management** (`/src/app/api/addresses/`)
+- [x] **Address Management** (`/src/app/api/addresses/`)
   - [ ] CRUD operations (`/src/app/api/addresses/route.ts`)
   - [ ] Individual operations (`/src/app/api/addresses/[id]/route.ts`)
 
 ### 📊 **Analytics & Reports APIs**
-- [ ] **Dashboard Stats** (`/src/app/api/dashboard/`)
+- [x] **Dashboard Stats** (`/src/app/api/dashboard/`)
   - [ ] General stats (`/src/app/api/dashboard/stats/route.ts`)
   - [ ] Sales reports (`/src/app/api/dashboard/sales/route.ts`)
   - [ ] Product analytics (`/src/app/api/dashboard/products/route.ts`)
@@ -139,7 +139,7 @@ Based on the current implementation, this document identifies all missing files,
   - [x] Textarea (`/src/components/ui/textarea.tsx`)
   - [x] Select dropdown (`/src/components/ui/select.tsx`)
   - [x] Checkbox (`/src/components/ui/checkbox.tsx`)
-  - [ ] Radio button (`/src/components/ui/radio.tsx`)
+  - [x] Radio button (`/src/components/ui/radio.tsx`)
   - [x] Switch toggle (`/src/components/ui/switch.tsx`)
 
 - [ ] **Form Components** (`/src/components/forms/`)
