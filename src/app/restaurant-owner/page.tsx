@@ -69,7 +69,7 @@ export default function RestaurantOwnerPage() {
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
+          <p className="text-sm text-gray-600 mt-4">
             ✅ Cadastro gratuito • ✅ Sem taxa de adesão • ✅ Comece a vender hoje
           </p>
         </div>
@@ -332,7 +332,7 @@ export default function RestaurantOwnerPage() {
           <h2 className="text-3xl font-bold text-white mb-4">
             Pronto para começar a vender mais?
           </h2>
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-xl text-green-100 mb-8">
             Junte-se a centenas de restaurantes que já aumentaram suas vendas conosco.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -348,7 +348,7 @@ export default function RestaurantOwnerPage() {
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-gray-400 mt-4">
+          <p className="text-sm text-gray-300 mt-4">
             Sem compromisso • Cancele quando quiser • Suporte gratuito
           </p>
         </div>
@@ -363,7 +363,7 @@ export default function RestaurantOwnerPage() {
                 <Store className="h-8 w-8 text-green-600" />
                 <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 A plataforma que faz seu restaurante crescer.
               </p>
             </div>
@@ -371,27 +371,27 @@ export default function RestaurantOwnerPage() {
             <div>
               <h5 className="font-semibold mb-4">Para Restaurantes</h5>
               <ul className="space-y-2">
-                <li><Link href="/auth/register/restaurant" className="text-gray-400 hover:text-white">Cadastrar Restaurante</Link></li>
-                <li><Link href="/auth/login" className="text-gray-400 hover:text-white">Área do Parceiro</Link></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Como Funciona</a></li>
+                <li><Link href="/auth/register/restaurant" className="text-gray-300 hover:text-white">Cadastrar Restaurante</Link></li>
+                <li><Link href="/auth/login" className="text-gray-300 hover:text-white">Área do Parceiro</Link></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Como Funciona</a></li>
               </ul>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Suporte</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white">Central de Ajuda</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Contato</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Termos de Parceria</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Contato</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Termos de Parceria</a></li>
               </ul>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Recursos</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Dicas de Vendas</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Webinars</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Blog</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Dicas de Vendas</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Webinars</a></li>
               </ul>
             </div>
           </div>
@@ -399,12 +399,12 @@ export default function RestaurantOwnerPage() {
           <div className="border-t border-gray-700 mt-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-center md:text-left mb-4 md:mb-0">
-                <p className="text-gray-400">
+                <p className="text-gray-300">
                   © 2024 DeliveryNext. Todos os direitos reservados.
                 </p>
               </div>
               <div className="text-center md:text-right">
-                <p className="text-gray-400 mb-2">
+                <p className="text-gray-300 mb-2">
                   Quer pedir comida?
                 </p>
                 <Link href="/">

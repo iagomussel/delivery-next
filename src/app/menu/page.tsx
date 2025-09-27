@@ -202,7 +202,7 @@ export default function MenuManagementPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
               <input
                 type="text"
                 placeholder={activeTab === 'categories' ? 'Buscar categorias...' : 'Buscar produtos...'}
@@ -249,7 +249,7 @@ export default function MenuManagementPage() {
             {filteredCategories.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
-                  <Tag className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <Tag className="h-12 w-12 text-gray-500 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhuma categoria encontrada</h3>
                   <p className="text-gray-600 mb-4">
                     {searchTerm || statusFilter !== 'all' 
@@ -311,7 +311,7 @@ export default function MenuManagementPage() {
             {filteredProducts.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
-                  <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <Package className="h-12 w-12 text-gray-500 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum produto encontrado</h3>
                   <p className="text-gray-600 mb-4">
                     {searchTerm || categoryFilter !== 'all' || statusFilter !== 'all'

@@ -230,7 +230,7 @@ export default function HomePage() {
                 <Store className="h-8 w-8 text-orange-600" />
                 <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 A melhor plataforma de delivery da sua cidade.
               </p>
             </div>
@@ -238,27 +238,27 @@ export default function HomePage() {
             <div>
               <h5 className="font-semibold mb-4">Para Clientes</h5>
               <ul className="space-y-2">
-                <li><Link href="/restaurants/discover" className="text-gray-400 hover:text-white">Descobrir Restaurantes</Link></li>
-                <li><Link href="/auth/register/customer" className="text-gray-400 hover:text-white">Criar Conta</Link></li>
-                <li><Link href="/auth/login" className="text-gray-400 hover:text-white">Fazer Login</Link></li>
+                <li><Link href="/restaurants/discover" className="text-gray-300 hover:text-white">Descobrir Restaurantes</Link></li>
+                <li><Link href="/auth/register/customer" className="text-gray-300 hover:text-white">Criar Conta</Link></li>
+                <li><Link href="/auth/login" className="text-gray-300 hover:text-white">Fazer Login</Link></li>
               </ul>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Suporte</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white">Central de Ajuda</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Contato</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Termos de Uso</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Contato</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Termos de Uso</a></li>
               </ul>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Empresa</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white">Sobre Nós</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Trabalhe Conosco</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Imprensa</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Sobre Nós</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Trabalhe Conosco</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Imprensa</a></li>
               </ul>
             </div>
           </div>
@@ -266,12 +266,12 @@ export default function HomePage() {
           <div className="border-t border-gray-800 mt-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-center md:text-left mb-4 md:mb-0">
-                <p className="text-gray-400">
+                <p className="text-gray-300">
                   © 2024 DeliveryNext. Todos os direitos reservados.
                 </p>
               </div>
               <div className="text-center md:text-right">
-                <p className="text-gray-400 mb-2">
+                <p className="text-gray-300 mb-2">
                   É dono de um restaurante?
                 </p>
                 <Link href="/restaurant-owner">
