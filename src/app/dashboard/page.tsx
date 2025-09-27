@@ -113,7 +113,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => router.push('/settings')}>
                 <Settings className="h-4 w-4 mr-2" />
                 Configurações
               </Button>
@@ -132,12 +132,12 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total de Pedidos</CardTitle>
-              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-800">Total de Pedidos</CardTitle>
+              <ShoppingCart className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalOrders}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold text-gray-900">{stats.totalOrders}</div>
+              <p className="text-xs text-gray-600">
                 Todos os tempos
               </p>
             </CardContent>
@@ -145,12 +145,12 @@ export default function DashboardPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pedidos Pendentes</CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-800">Pedidos Pendentes</CardTitle>
+              <Package className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{stats.pendingOrders}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-600">
                 Aguardando processamento
               </p>
             </CardContent>
@@ -158,14 +158,14 @@ export default function DashboardPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Receita Total</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-800">Receita Total</CardTitle>
+              <TrendingUp className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold text-gray-900">
                 R$ {stats.totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-600">
                 Faturamento total
               </p>
             </CardContent>
@@ -173,12 +173,12 @@ export default function DashboardPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Produtos</CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-800">Produtos</CardTitle>
+              <Package className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalProducts}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold text-gray-900">{stats.totalProducts}</div>
+              <p className="text-xs text-gray-600">
                 No cardápio
               </p>
             </CardContent>
@@ -187,13 +187,13 @@ export default function DashboardPage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="cursor-pointer hover:shadow-md transition-shadow">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/orders')}>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex items-center text-gray-800">
                 <ShoppingCart className="h-5 w-5 mr-2 text-orange-600" />
                 Pedidos
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-600">
                 Gerencie pedidos e acompanhe o status
               </CardDescription>
             </CardHeader>
@@ -204,13 +204,13 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/menu')}>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex items-center text-gray-800">
                 <Package className="h-5 w-5 mr-2 text-orange-600" />
                 Cardápio
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-600">
                 Gerencie produtos e categorias
               </CardDescription>
             </CardHeader>
@@ -221,13 +221,13 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/employees')}>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex items-center text-gray-800">
                 <Users className="h-5 w-5 mr-2 text-orange-600" />
                 Funcionários
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-600">
                 Gerencie equipe e permissões
               </CardDescription>
             </CardHeader>
