@@ -79,30 +79,30 @@ Based on the current implementation, this document identifies all missing files,
 ## 🔌 **MISSING API ENDPOINTS**
 
 ### 🔐 **Authentication & Authorization**
-- [ ] **Password Reset** (`/src/app/api/auth/password-reset/`)
-  - [ ] Request reset (`/src/app/api/auth/password-reset/request/route.ts`)
-  - [ ] Reset password (`/src/app/api/auth/password-reset/reset/route.ts`)
+- [x] **Password Reset** (`/src/app/api/auth/password-reset/`)
+  - [x] Request reset (`/src/app/api/auth/password-reset/request/route.ts`)
+  - [x] Reset password (`/src/app/api/auth/password-reset/reset/route.ts`)
 
-- [ ] **Profile Management** (`/src/app/api/auth/profile/`)
-  - [ ] Get profile (`/src/app/api/auth/profile/route.ts`)
-  - [ ] Update profile (`/src/app/api/auth/profile/route.ts`)
+- [x] **Profile Management** (`/src/app/api/auth/profile/`)
+  - [x] Get profile (`/src/app/api/auth/profile/route.ts`)
+  - [x] Update profile (`/src/app/api/auth/profile/route.ts`)
 
 ### 🏪 **Restaurant Management APIs**
-- [ ] **Option Groups Management** (`/src/app/api/option-groups/`)
-  - [ ] CRUD operations (`/src/app/api/option-groups/route.ts`)
-  - [ ] Individual operations (`/src/app/api/option-groups/[id]/route.ts`)
+- [x] **Option Groups Management** (`/src/app/api/option-groups/`)
+  - [x] CRUD operations (`/src/app/api/option-groups/route.ts`)
+  - [x] Individual operations (`/src/app/api/option-groups/[id]/route.ts`)
 
-- [ ] **Options Management** (`/src/app/api/options/`)
-  - [ ] CRUD operations (`/src/app/api/options/route.ts`)
-  - [ ] Individual operations (`/src/app/api/options/[id]/route.ts`)
+- [x] **Options Management** (`/src/app/api/options/`)
+  - [x] CRUD operations (`/src/app/api/options/route.ts`)
+  - [x] Individual operations (`/src/app/api/options/[id]/route.ts`)
 
-- [ ] **Product Options Assignment** (`/src/app/api/products/[id]/options/`)
-  - [ ] Assign option groups (`/src/app/api/products/[id]/options/route.ts`)
+- [x] **Product Options Assignment** (`/src/app/api/products/[id]/options/`)
+  - [x] Assign option groups (`/src/app/api/products/[id]/options/route.ts`)
 
 ### 👥 **User Management APIs**
-- [ ] **Staff Management** (`/src/app/api/staff/`)
-  - [ ] CRUD operations (`/src/app/api/staff/route.ts`)
-  - [ ] Individual operations (`/src/app/api/staff/[id]/route.ts`)
+- [x] **Staff Management** (`/src/app/api/staff/`)
+  - [x] CRUD operations (`/src/app/api/staff/route.ts`)
+  - [x] Individual operations (`/src/app/api/staff/[id]/route.ts`)
 
 - [ ] **Customer Management** (`/src/app/api/customers/`)
   - [ ] CRUD operations (`/src/app/api/customers/route.ts`)
@@ -134,13 +134,13 @@ Based on the current implementation, this document identifies all missing files,
 ## 🧩 **MISSING UI COMPONENTS**
 
 ### 📱 **Form Components**
-- [ ] **Input Components** (`/src/components/ui/`)
-  - [ ] Input field (`/src/components/ui/input.tsx`)
-  - [ ] Textarea (`/src/components/ui/textarea.tsx`)
-  - [ ] Select dropdown (`/src/components/ui/select.tsx`)
-  - [ ] Checkbox (`/src/components/ui/checkbox.tsx`)
+- [x] **Input Components** (`/src/components/ui/`)
+  - [x] Input field (`/src/components/ui/input.tsx`)
+  - [x] Textarea (`/src/components/ui/textarea.tsx`)
+  - [x] Select dropdown (`/src/components/ui/select.tsx`)
+  - [x] Checkbox (`/src/components/ui/checkbox.tsx`)
   - [ ] Radio button (`/src/components/ui/radio.tsx`)
-  - [ ] Switch toggle (`/src/components/ui/switch.tsx`)
+  - [x] Switch toggle (`/src/components/ui/switch.tsx`)
 
 - [ ] **Form Components** (`/src/components/forms/`)
   - [ ] Product form (`/src/components/forms/ProductForm.tsx`)
