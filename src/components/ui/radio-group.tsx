@@ -49,7 +49,7 @@ const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemProps>(
         onChange={(e) => onValueChange?.(e.target.value)}
         disabled={disabled}
         className={cn(
-          "h-4 w-4 border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          "h-4 w-4 border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary",
           className
         )}
         ref={ref}

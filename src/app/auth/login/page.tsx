@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Store, Eye, EyeOff } from 'lucide-react'
 
@@ -63,12 +65,12 @@ export default function LoginPage() {
             <Store className="h-12 w-12 text-primary" />
             <h1 className="ml-2 text-2xl font-bold text-foreground">DeliveryNext</h1>
           </div>
-          <h2 className="mt-6 text-2xl font-bold text-gray-900">
+          <h2 className="mt-6 text-2xl font-bold text-foreground">
             Entre na sua conta
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-muted-foreground">
             Ou{' '}
-            <Link href="/auth/register" className="font-medium text-orange-600 hover:text-orange-500">
+            <Link href="/auth/register" className="font-medium text-primary hover:opacity-90">
               crie uma nova conta
             </Link>
           </p>
@@ -89,41 +91,40 @@ export default function LoginPage() {
                 </div>
               )}
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
+              <div className="space-y-1">
+                <Label htmlFor="email">Email</Label>
+                <Input
                   id="email"
                   name="email"
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white text-gray-900 placeholder-gray-500"
                   placeholder="seu@email.com"
+                  autoComplete="email"
                 />
               </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Senha
-                </label>
-                <div className="mt-1 relative">
-                  <input
+              <div className="space-y-1">
+                <Label htmlFor="password">Senha</Label>
+                <div className="relative">
+                  <Input
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white text-gray-900 placeholder-gray-500"
                     placeholder="Sua senha"
+                    autoComplete="current-password"
+                    aria-invalid={!!error}
+                    aria-describedby={error ? 'login-error' : undefined}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={showPassword ? 'Esconder senha' : 'Mostrar senha'}
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>

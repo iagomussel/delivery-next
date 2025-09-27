@@ -40,7 +40,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         </button>
         
         {isOpen && (
-          <div className="absolute z-50 w-full mt-1 bg-popover border border-border rounded-md shadow-md">
+          <div className="absolute z-50 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow-md">
             <div className="p-1">
               {React.Children.map(children, (child) => {
                 if (React.isValidElement(child)) {
@@ -73,7 +73,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       <div
         ref={ref}
         className={cn(
-          "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+          "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm text-popover-foreground outline-none hover:bg-accent hover:text-accent-foreground",
           isSelected && "bg-accent text-accent-foreground"
         )}
         onClick={() => onSelect?.(value)}
