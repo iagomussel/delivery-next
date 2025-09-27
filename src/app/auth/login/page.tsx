@@ -142,6 +142,24 @@ export default function LoginPage() {
                 {loading ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
+
+            <div className="mt-6 text-center space-y-2">
+              <p className="text-sm text-gray-600">
+                Não tem uma conta?
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Link href="/auth/register/customer" className="flex-1">
+                  <Button variant="outline" size="sm" className="w-full text-orange-600 border-orange-600 hover:bg-orange-50">
+                    Sou Cliente
+                  </Button>
+                </Link>
+                <Link href="/auth/register/restaurant" className="flex-1">
+                  <Button variant="outline" size="sm" className="w-full text-green-600 border-green-600 hover:bg-green-50">
+                    Tenho Restaurante
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

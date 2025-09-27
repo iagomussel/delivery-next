@@ -241,7 +241,7 @@ export default function OrderTrackingPage() {
                         <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
                           isCompleted 
                             ? 'bg-orange-600 text-white' 
-                            : 'bg-gray-200 text-gray-400'
+                            : 'bg-gray-200 text-gray-600'
                         }`}>
                           {isCompleted ? (
                             <CheckCircle className="h-4 w-4" />
@@ -251,12 +251,12 @@ export default function OrderTrackingPage() {
                         </div>
                         <div className="ml-4 flex-1">
                           <p className={`font-medium ${
-                            isCurrent ? 'text-orange-600' : isCompleted ? 'text-gray-900' : 'text-gray-400'
+                            isCurrent ? 'text-orange-600' : isCompleted ? 'text-gray-900' : 'text-gray-600'
                           }`}>
                             {config.label}
                           </p>
                           {isCurrent && (
-                            <p className="text-sm text-gray-500">{config.description}</p>
+                            <p className="text-sm text-gray-600">{config.description}</p>
                           )}
                         </div>
                       </div>
@@ -277,9 +277,9 @@ export default function OrderTrackingPage() {
                     <div key={item.id} className="flex justify-between items-start">
                       <div className="flex-1">
                         <p className="font-medium">{item.productName}</p>
-                        <p className="text-sm text-gray-500">Qtd: {item.quantity}</p>
+                        <p className="text-sm text-gray-600">Qtd: {item.quantity}</p>
                         {item.observations && (
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="text-sm text-gray-600 mt-1">
                             Obs: {item.observations}
                           </p>
                         )}
@@ -319,7 +319,7 @@ export default function OrderTrackingPage() {
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Restaurante</h4>
                   <p className="text-gray-600">{order.restaurant.name}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600">
                     {order.restaurant.address?.street}, {order.restaurant.address?.number}
                   </p>
                 </div>

@@ -1,7 +1,18 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Store, Users, ShoppingCart, BarChart3 } from 'lucide-react'
+import { 
+  Store, 
+  Clock, 
+  MapPin, 
+  Star, 
+  Smartphone, 
+  CreditCard,
+  Truck,
+  Users,
+  Shield,
+  Search
+} from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -9,16 +20,16 @@ export default function HomePage() {
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
               <Store className="h-8 w-8 text-orange-600" />
               <h1 className="ml-2 text-2xl font-bold text-gray-900">DeliveryNext</h1>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex items-center space-x-4">
               <Link href="/auth/login">
                 <Button variant="outline">Entrar</Button>
               </Link>
-              <Link href="/auth/register">
+              <Link href="/auth/register/customer">
                 <Button>Cadastrar</Button>
               </Link>
             </div>
@@ -29,23 +40,23 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Plataforma de Delivery
-            <span className="text-orange-600"> Multi-tenant</span>
-          </h2>
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Comida deliciosa na sua porta
+          </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Sistema completo para restaurantes venderem via delivery sem processar pagamentos.
-            Gerencie cardápios, pedidos, opcionais e muito mais.
+            Descubra os melhores restaurantes da sua região e peça sua comida favorita 
+            com entrega rápida e segura.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register">
-              <Button size="lg" className="w-full sm:w-auto">
-                Começar Agora
+            <Link href="/restaurants/discover">
+              <Button size="lg" className="text-lg px-8 py-4">
+                <Search className="h-5 w-5 mr-2" />
+                Descobrir Restaurantes
               </Button>
             </Link>
-            <Link href="/demo">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                Ver Demo
+            <Link href="/auth/register/customer">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+                Criar Conta Grátis
               </Button>
             </Link>
           </div>
@@ -53,70 +64,102 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Funcionalidades Principais
-            </h3>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Por que escolher o DeliveryNext?
+            </h2>
             <p className="text-lg text-gray-600">
-              Tudo que você precisa para gerenciar seu delivery
+              A melhor experiência de delivery da sua cidade
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="text-center">
               <CardHeader>
-                <Store className="h-12 w-12 text-orange-600 mb-4" />
-                <CardTitle>Gestão de Restaurantes</CardTitle>
-                <CardDescription>
-                  Multi-tenant com gestão completa de restaurantes, horários e áreas de entrega
-                </CardDescription>
+                <Clock className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Entrega Rápida</CardTitle>
               </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Receba seu pedido em até 30 minutos. Acompanhe em tempo real.
+                </CardDescription>
+              </CardContent>
             </Card>
 
-            <Card>
+            <Card className="text-center">
               <CardHeader>
-                <ShoppingCart className="h-12 w-12 text-orange-600 mb-4" />
-                <CardTitle>Cardápio Inteligente</CardTitle>
-                <CardDescription>
-                  Produtos com opcionais, adicionais e regras de preço flexíveis
-                </CardDescription>
+                <MapPin className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Cobertura Total</CardTitle>
               </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Entregamos em toda a cidade. Encontre restaurantes perto de você.
+                </CardDescription>
+              </CardContent>
             </Card>
 
-            <Card>
+            <Card className="text-center">
               <CardHeader>
-                <Users className="h-12 w-12 text-orange-600 mb-4" />
-                <CardTitle>Controle de Acesso</CardTitle>
-                <CardDescription>
-                  RBAC com diferentes níveis: dono, funcionário, afiliado e admin
-                </CardDescription>
+                <Star className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Qualidade Garantida</CardTitle>
               </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Restaurantes selecionados e avaliados pelos nossos clientes.
+                </CardDescription>
+              </CardContent>
             </Card>
 
-            <Card>
+            <Card className="text-center">
               <CardHeader>
-                <BarChart3 className="h-12 w-12 text-orange-600 mb-4" />
-                <CardTitle>Relatórios</CardTitle>
-                <CardDescription>
-                  Analytics completos de vendas, conversões e performance
-                </CardDescription>
+                <Smartphone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Fácil de Usar</CardTitle>
               </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Interface simples e intuitiva. Faça seu pedido em poucos cliques.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <CreditCard className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Pagamento Seguro</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Pague com cartão, PIX ou dinheiro. Seus dados sempre protegidos.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle>Suporte 24/7</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Nossa equipe está sempre pronta para ajudar você.
+                </CardDescription>
+              </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* How it Works Section */}
-      <section className="py-20 bg-gray-50">
+      {/* How it Works */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Como Funciona
-            </h3>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Como funciona
+            </h2>
             <p className="text-lg text-gray-600">
-              Processo simples e eficiente para seus clientes
+              Peça sua comida em 3 passos simples
             </p>
           </div>
 
@@ -125,9 +168,9 @@ export default function HomePage() {
               <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-orange-600">1</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">Cliente Navega</h4>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Escolha o Restaurante</h3>
               <p className="text-gray-600">
-                Cliente acessa o cardápio, escolhe produtos e personaliza com opcionais
+                Navegue pelos restaurantes disponíveis na sua região e escolha seu favorito.
               </p>
             </div>
 
@@ -135,9 +178,9 @@ export default function HomePage() {
               <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-orange-600">2</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">Faz o Pedido</h4>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Monte seu Pedido</h3>
               <p className="text-gray-600">
-                Seleciona endereço, forma de pagamento presencial e envia o pedido
+                Adicione seus pratos favoritos ao carrinho e personalize como quiser.
               </p>
             </div>
 
@@ -145,9 +188,9 @@ export default function HomePage() {
               <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-orange-600">3</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">Restaurante Processa</h4>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Receba em Casa</h3>
               <p className="text-gray-600">
-                Funcionários recebem, preparam e entregam com acompanhamento em tempo real
+                Finalize o pagamento e acompanhe a entrega até chegar na sua porta.
               </p>
             </div>
           </div>
@@ -155,33 +198,90 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-orange-600">
+      <section className="py-16 bg-orange-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-3xl font-bold text-white mb-4">
-            Pronto para Começar?
-          </h3>
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Pronto para começar?
+          </h2>
           <p className="text-xl text-orange-100 mb-8">
-            Cadastre seu restaurante e comece a vender online hoje mesmo
+            Cadastre-se agora e ganhe desconto no primeiro pedido!
           </p>
-          <Link href="/auth/register">
-            <Button size="lg" variant="secondary">
-              Cadastrar Restaurante
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/register/customer">
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
+                Criar Conta Grátis
+              </Button>
+            </Link>
+            <Link href="/restaurants/discover">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-orange-600">
+                Ver Restaurantes
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <Store className="h-8 w-8 text-orange-600" />
-              <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <Store className="h-8 w-8 text-orange-600" />
+                <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
+              </div>
+              <p className="text-gray-400">
+                A melhor plataforma de delivery da sua cidade.
+              </p>
             </div>
-            <p className="text-gray-400">
-              © 2024 DeliveryNext. Todos os direitos reservados.
-            </p>
+
+            <div>
+              <h5 className="font-semibold mb-4">Para Clientes</h5>
+              <ul className="space-y-2">
+                <li><Link href="/restaurants/discover" className="text-gray-400 hover:text-white">Descobrir Restaurantes</Link></li>
+                <li><Link href="/auth/register/customer" className="text-gray-400 hover:text-white">Criar Conta</Link></li>
+                <li><Link href="/auth/login" className="text-gray-400 hover:text-white">Fazer Login</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h5 className="font-semibold mb-4">Suporte</h5>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Contato</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Termos de Uso</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h5 className="font-semibold mb-4">Empresa</h5>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Sobre Nós</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Trabalhe Conosco</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Imprensa</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 mt-8 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="text-center md:text-left mb-4 md:mb-0">
+                <p className="text-gray-400">
+                  © 2024 DeliveryNext. Todos os direitos reservados.
+                </p>
+              </div>
+              <div className="text-center md:text-right">
+                <p className="text-gray-400 mb-2">
+                  É dono de um restaurante?
+                </p>
+                <Link href="/restaurant-owner">
+                  <Button variant="outline" size="sm" className="border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white">
+                    <Store className="h-4 w-4 mr-2" />
+                    Comece aqui!
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

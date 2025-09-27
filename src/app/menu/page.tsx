@@ -179,7 +179,7 @@ export default function MenuManagementPage() {
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'categories'
                     ? 'border-orange-500 text-orange-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
                 }`}
               >
                 Categorias ({categories.length})
@@ -189,7 +189,7 @@ export default function MenuManagementPage() {
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'products'
                     ? 'border-orange-500 text-orange-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
                 }`}
               >
                 Produtos ({products.length})
