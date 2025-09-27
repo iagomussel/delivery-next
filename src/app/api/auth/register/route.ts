@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { hashPassword, generateToken } from '@/lib/auth'
-import { UserRole, TenantStatus } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
+type TenantStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED'
 import { generateSlug } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
@@ -33,7 +35,7 @@ export async function POST(request: NextRequest) {
       data: {
         name: tenantName,
         slug: tenantSlug,
-        status: TenantStatus.ACTIVE,
+        status: 'ACTIVE',
         plan: 'basic',
       },
     })
@@ -73,7 +75,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         passwordHash: hashedPassword,
-        role: UserRole.OWNER,
+        role: 'OWNER',
         active: true,
       },
     })

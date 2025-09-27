@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { UserRole } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
 
 export interface JWTPayload {
   userId: string
   tenantId: string
-  role: UserRole
+  role: string
   email: string
 }
 

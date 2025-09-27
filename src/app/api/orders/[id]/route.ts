@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { UserRole, OrderStatus } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
+type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELED'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const tenantId = request.headers.get('x-tenant-id')
     const userRole = request.headers.get('x-user-role') as UserRole
@@ -18,7 +21,7 @@ export async function GET(
     }
 
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         customer: true,
         restaurant: true,
@@ -46,7 +49,7 @@ export async function GET(
     }
 
     // Check permissions
-    if (userRole === UserRole.CUSTOMER) {
+    if (userRole === 'CUSTOMER') {
       const customerId = request.headers.get('x-customer-id')
       if (order.customerId !== customerId) {
         return NextResponse.json(
@@ -68,8 +71,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const tenantId = request.headers.get('x-tenant-id')
     const userRole = request.headers.get('x-user-role') as UserRole
@@ -82,7 +86,7 @@ export async function PUT(
       )
     }
 
-    if (userRole !== UserRole.OWNER && userRole !== UserRole.STAFF && userRole !== UserRole.ADMIN) {
+    if (userRole !== 'OWNER' && userRole !== 'STAFF' && userRole !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -94,7 +98,7 @@ export async function PUT(
 
     // Get current order
     const currentOrder = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!currentOrder) {
@@ -105,13 +109,13 @@ export async function PUT(
     }
 
     // Validate status transition
-    const validTransitions: Record<OrderStatus, OrderStatus[]> = {
-      [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELED],
-      [OrderStatus.CONFIRMED]: [OrderStatus.PREPARING, OrderStatus.CANCELED],
-      [OrderStatus.PREPARING]: [OrderStatus.OUT_FOR_DELIVERY, OrderStatus.CANCELED],
-      [OrderStatus.OUT_FOR_DELIVERY]: [OrderStatus.DELIVERED],
-      [OrderStatus.DELIVERED]: [],
-      [OrderStatus.CANCELED]: [],
+    const validTransitions: Record<string, string[]> = {
+      'PENDING': ['CONFIRMED', 'CANCELED'],
+      'CONFIRMED': ['PREPARING', 'CANCELED'],
+      'PREPARING': ['OUT_FOR_DELIVERY', 'CANCELED'],
+      'OUT_FOR_DELIVERY': ['DELIVERED'],
+      'DELIVERED': [],
+      'CANCELED': [],
     }
 
     if (!validTransitions[currentOrder.status].includes(status)) {
@@ -123,19 +127,19 @@ export async function PUT(
 
     // Update order
     const order = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: {
-        status: status as OrderStatus,
+        status: status,
       },
     })
 
     // Create order event
     await prisma.orderEvent.create({
       data: {
-        orderId: params.id,
+        orderId: id,
         actorUserId: userId,
         fromStatus: currentOrder.status,
-        toStatus: status as OrderStatus,
+        toStatus: status,
         notes,
       },
     })

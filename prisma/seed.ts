@@ -1,4 +1,4 @@
-import { PrismaClient, TenantStatus } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -11,7 +11,7 @@ async function main() {
       id: 'public',
       name: 'Public Customers',
       slug: 'public',
-      status: TenantStatus.ACTIVE,
+      status: 'ACTIVE',
       plan: 'free',
     },
   })

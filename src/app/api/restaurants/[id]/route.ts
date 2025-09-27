@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { UserRole } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const restaurant = await prisma.restaurant.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         categories: {
           where: { active: true },
@@ -56,8 +58,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const tenantId = request.headers.get('x-tenant-id')
     const userRole = request.headers.get('x-user-role') as UserRole
@@ -69,7 +72,7 @@ export async function PUT(
       )
     }
 
-    if (userRole !== UserRole.OWNER && userRole !== UserRole.ADMIN) {
+    if (userRole !== 'OWNER' && userRole !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -80,7 +83,7 @@ export async function PUT(
     const { name, address, geo, deliveryRadiusKm, openingHours, acceptingOrders } = data
 
     const restaurant = await prisma.restaurant.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         address,
@@ -103,8 +106,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const tenantId = request.headers.get('x-tenant-id')
     const userRole = request.headers.get('x-user-role') as UserRole
@@ -116,7 +120,7 @@ export async function DELETE(
       )
     }
 
-    if (userRole !== UserRole.OWNER && userRole !== UserRole.ADMIN) {
+    if (userRole !== 'OWNER' && userRole !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -124,7 +128,7 @@ export async function DELETE(
     }
 
     await prisma.restaurant.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ success: true })

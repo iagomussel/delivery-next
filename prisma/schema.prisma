@@ -10,48 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  OWNER
-  STAFF
-  AFFILIATE
-  ADMIN
-  CUSTOMER
-}
-
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  PREPARING
-  OUT_FOR_DELIVERY
-  DELIVERED
-  CANCELED
-}
-
-enum FulfillmentType {
-  DELIVERY
-  PICKUP
-}
-
-enum PaymentMethod {
-  CASH
-  PIX
-  DEBIT
-  CREDIT
-  VOUCHER
-  OTHER
-}
-
-enum TenantStatus {
-  ACTIVE
-  INACTIVE
-  SUSPENDED
-}
+// Enums replaced with String fields for SQLite compatibility
+// UserRole: OWNER, STAFF, AFFILIATE, ADMIN, CUSTOMER
+// OrderStatus: PENDING, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, DELIVERED, CANCELED
+// FulfillmentType: DELIVERY, PICKUP
+// PaymentMethod: CASH, PIX, DEBIT, CREDIT, VOUCHER, OTHER
+// TenantStatus: ACTIVE, INACTIVE, SUSPENDED
 
 model Tenant {
   id        String        @id @default(cuid())
   name      String
   slug      String        @unique
-  status    TenantStatus  @default(ACTIVE)
+  status    String        @default("ACTIVE")
   plan      String        @default("basic")
   timezone  String        @default("America/Sao_Paulo")
   createdAt DateTime      @default(now())
@@ -72,7 +42,7 @@ model User {
   name          String
   email         String   @unique
   passwordHash  String
-  role          UserRole
+  role          String
   active        Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -90,11 +60,11 @@ model Restaurant {
   tenantId          String
   name              String
   slug              String    @unique
-  address           Json      // { street, number, neighborhood, city, state, zip }
-  geo               Json?     // { lat, lng }
+  address           String    // JSON string: { street, number, neighborhood, city, state, zip }
+  geo               String?   // JSON string: { lat, lng }
   deliveryRadiusKm  Decimal   @default(5.0)
   pickupEnabled     Boolean   @default(true)
-  openingHours      Json      // { monday: { open: "08:00", close: "22:00" }, ... }
+  openingHours      String    // JSON string: { monday: { open: "08:00", close: "22:00" }, ... }
   acceptingOrders   Boolean   @default(true)
   deliveryFee       Decimal   @default(0.0)
   minimumOrder      Decimal   @default(0.0)
@@ -251,9 +221,9 @@ model Order {
   id             String         @id @default(cuid())
   restaurantId   String
   customerId     String
-  status         OrderStatus    @default(PENDING)
-  fulfillment    FulfillmentType
-  paymentMethod  PaymentMethod
+  status         String         @default("PENDING")
+  fulfillment    String
+  paymentMethod  String
   subtotal       Decimal
   deliveryFee    Decimal        @default(0.0)
   discount       Decimal        @default(0.0)
@@ -313,8 +283,8 @@ model OrderEvent {
   id          String      @id @default(cuid())
   orderId     String
   actorUserId String?
-  fromStatus  OrderStatus?
-  toStatus    OrderStatus
+  fromStatus  String?
+  toStatus    String
   notes       String?
   ts          DateTime    @default(now())
 
