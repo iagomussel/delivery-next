@@ -19,6 +19,7 @@ import {
   Trash2,
   UserPlus
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface Employee {
   id: string
@@ -149,8 +150,8 @@ export default function EmployeesPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Funcionários</h1>
-                <p className="text-sm text-gray-600">Gerencie equipe e permissões</p>
+                <h1 className="text-2xl font-bold text-foreground">Gerenciar Funcionários</h1>
+                <p className="text-sm text-muted-foreground">Adicione e gerencie usuários do seu restaurante</p>
               </div>
             </div>
             <Button onClick={() => router.push('/employees/create')}>
@@ -167,13 +168,11 @@ export default function EmployeesPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
                 type="text"
-                placeholder="Buscar por nome ou email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                placeholder="Buscar funcionários..."
+                className="pl-10"
               />
             </div>
           </div>
@@ -209,17 +208,14 @@ export default function EmployeesPage() {
           {filteredEmployees.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
-                <User className="h-12 w-12 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum funcionário encontrado</h3>
-                <p className="text-gray-600 mb-4">
-                  {searchTerm || roleFilter !== 'all' || statusFilter !== 'all'
-                    ? 'Tente ajustar os filtros de busca.' 
-                    : 'Comece adicionando seu primeiro funcionário.'
-                  }
+                <User className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">Nenhum funcionário encontrado</h3>
+                <p className="text-muted-foreground mb-4">
+                  Comece adicionando seu primeiro funcionário para gerenciar sua equipe.
                 </p>
-                <Button onClick={() => router.push('/employees/create')}>
+                <Button onClick={() => router.push('/employees/create')} className="bg-primary hover:bg-primary/90">
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Adicionar Primeiro Funcionário
+                  Adicionar Funcionário
                 </Button>
               </CardContent>
             </Card>

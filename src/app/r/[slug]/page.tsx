@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ShoppingCart, Plus, Minus, Clock, MapPin, Phone, Star, ArrowLeft } from 'lucide-react'
+import { ShoppingCart, Plus, Minus, Clock, MapPin, Phone, Star, ArrowLeft, Utensils } from 'lucide-react'
 
 interface Restaurant {
   id: string
@@ -272,23 +272,13 @@ export default function PublicMenuPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">{restaurant.name}</h1>
-              <div className="flex items-center text-sm text-gray-600 mt-1 space-x-4">
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span>{restaurant.address?.street}, {restaurant.address?.number}</span>
-                </div>
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-1" />
-                  <span className={isOpen ? 'text-green-600' : 'text-red-600'}>
-                    {isOpen ? 'Aberto' : 'Fechado'}
-                  </span>
-                </div>
-                {restaurant.deliveryFee > 0 && (
-                  <div className="text-gray-600">
-                    Taxa de entrega: R$ {restaurant.deliveryFee.toFixed(2)}
-                  </div>
-                )}
+              <h1 className="text-2xl font-bold text-foreground">{restaurant.name}</h1>
+              <div className="flex items-center text-sm text-muted-foreground mt-1 space-x-4">
+                <Clock className="h-4 w-4 mr-1" />
+                <span>{restaurant.openingHours?.from}</span>
+                <span>•</span>
+                <MapPin className="h-4 w-4 mr-1" />
+                <span>{restaurant.address.city}</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -304,11 +294,9 @@ export default function PublicMenuPage() {
               >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Carrinho
-                {cart.length > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-orange-600 text-white min-w-[20px] h-5 flex items-center justify-center text-xs">
-                    {getCartItemCount()}
-                  </Badge>
-                )}
+                <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground min-w-[20px] h-5 flex items-center justify-center text-xs">
+                  {getCartItemCount()}
+                </Badge>
               </Button>
             </div>
           </div>
@@ -321,57 +309,52 @@ export default function PublicMenuPage() {
           <div className="lg:col-span-2">
             {restaurant.categories.length === 0 ? (
               <Card>
-                <CardContent className="text-center py-12">
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Cardápio em construção</h3>
-                  <p className="text-gray-600">Este restaurante ainda está organizando seu cardápio.</p>
+                <CardContent className="text-center py-8">
+                  <Utensils className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-foreground mb-2">Cardápio em construção</h3>
+                  <p className="text-muted-foreground">
+                    Este restaurante ainda está organizando seu cardápio. Volte em breve!
+                  </p>
                 </CardContent>
               </Card>
             ) : (
               restaurant.categories.map((category) => (
                 <div key={category.id} className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{category.name}</h2>
+                  <h2 className="text-2xl font-bold text-foreground mb-4">{category.name}</h2>
                   {category.products.length === 0 ? (
-                    <p className="text-gray-600 mb-4">Nenhum produto disponível nesta categoria.</p>
+                    <p className="text-muted-foreground mb-4">Nenhum produto disponível nesta categoria.</p>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {category.products.map((product) => (
-                        <Card key={product.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                          <CardHeader>
-                            <div className="flex justify-between items-start">
-                              <div className="flex-1">
-                                <CardTitle className="text-lg text-gray-900">{product.name}</CardTitle>
-                                <CardDescription className="mt-1 text-gray-600">
-                                  {product.description}
-                                </CardDescription>
-                              </div>
-                              {product.imageUrl && (
-                                <img 
-                                  src={product.imageUrl} 
-                                  alt={product.name}
-                                  className="w-16 h-16 object-cover rounded ml-4"
-                                />
-                              )}
-                            </div>
-                            <div className="flex justify-between items-center mt-3">
-                              <span className="text-lg font-bold text-orange-600">
+                      {category.products.map(product => (
+                        <Card 
+                          key={product.id} 
+                          className="relative cursor-pointer hover:shadow-md transition-shadow" 
+                          onClick={() => setSelectedProduct(product)}
+                        >
+                          <CardContent className="p-4 flex items-center">
+                            {product.imageUrl && (
+                              <img 
+                                src={product.imageUrl} 
+                                alt={product.name} 
+                                className="w-20 h-20 rounded-md object-cover mr-4"
+                              />
+                            )}
+                            <div className="flex-1">
+                              <CardTitle className="text-lg text-foreground">{product.name}</CardTitle>
+                              <CardDescription className="mt-1 text-muted-foreground">
+                                {product.description}
+                              </CardDescription>
+                              <p className="font-semibold text-foreground mt-2">
                                 R$ {Number(product.basePrice).toFixed(2)}
-                              </span>
-                              <Button 
-                                onClick={() => addToCart(product)}
-                                disabled={!canOrder}
-                                size="sm"
-                              >
-                                <Plus className="h-4 w-4 mr-1" />
-                                Adicionar
-                              </Button>
+                              </p>
                             </div>
-                          </CardHeader>
+                          </CardContent>
                         </Card>
                       ))}
                     </div>
                   )}
                 </div>
-              ))
+              ))}
             )}
           </div>
 
@@ -379,22 +362,24 @@ export default function PublicMenuPage() {
           <div className="lg:col-span-1">
             <Card className="sticky top-24">
               <CardHeader>
-                <CardTitle className="flex items-center text-gray-900">
+                <CardTitle className="flex items-center text-foreground">
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Carrinho
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {cart.length === 0 ? (
-                  <p className="text-gray-600 text-center py-4">Carrinho vazio</p>
+                  <CardContent className="text-center py-4">
+                    <p className="text-muted-foreground">Carrinho vazio</p>
+                  </CardContent>
                 ) : (
                   <div className="space-y-4">
                     {cart.map((item, index) => (
                       <div key={index} className="flex items-center justify-between">
                         <div className="flex-1">
-                          <p className="font-medium text-gray-900">{item.productName}</p>
-                          <p className="text-sm text-gray-600">
-                            R$ {item.totalPrice.toFixed(2)} cada
+                          <p className="font-medium text-foreground">{item.productName}</p>
+                          <p className="text-sm text-muted-foreground">
+                            R$ {item.basePrice.toFixed(2)} cada
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -405,7 +390,7 @@ export default function PublicMenuPage() {
                           >
                             <Minus className="h-4 w-4" />
                           </Button>
-                          <span className="w-8 text-center text-gray-900">{item.quantity}</span>
+                          <span className="w-8 text-center text-foreground">{item.quantity}</span>
                           <Button
                             size="sm"
                             variant="outline"
@@ -418,7 +403,7 @@ export default function PublicMenuPage() {
                     ))}
                     
                     <div className="border-t pt-4">
-                      <div className="flex justify-between items-center text-lg font-bold text-gray-900">
+                      <div className="flex justify-between items-center text-lg font-bold text-foreground">
                         <span>Total:</span>
                         <span>R$ {getCartTotal().toFixed(2)}</span>
                       </div>
@@ -449,20 +434,25 @@ export default function PublicMenuPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <Card className="w-full max-w-md max-h-[80vh] overflow-y-auto">
             <CardHeader>
-              <CardTitle className="text-gray-900">{selectedProduct.name}</CardTitle>
-              <CardDescription className="text-gray-600">{selectedProduct.description}</CardDescription>
+              <CardTitle className="flex items-center text-foreground">
+                {selectedProduct.name}
+                <Badge variant="outline" className="ml-2 text-primary border-primary">
+                  R$ {Number(selectedProduct.basePrice).toFixed(2)}
+                </Badge>
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">{selectedProduct.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {selectedProduct.productOptionGroups.map((pog) => (
                 <div key={pog.optionGroup.id}>
-                  <h4 className="font-medium mb-2 text-gray-900">
+                  <h4 className="font-medium mb-2 text-foreground">
                     {pog.optionGroup.name}
-                    {pog.optionGroup.required && <span className="text-red-500 ml-1">*</span>}
+                    {pog.optionGroup.required && (
+                      <span className="ml-1 text-destructive text-xs">(Obrigatório)</span>
+                    )}
                   </h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {pog.optionGroup.minSelect > 0 && `Mínimo: ${pog.optionGroup.minSelect}`}
-                    {pog.optionGroup.maxSelect > 0 && ` | Máximo: ${pog.optionGroup.maxSelect}`}
-                    {pog.optionGroup.freeQuota > 0 && ` | Grátis: ${pog.optionGroup.freeQuota}`}
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Escolha suas opções:
                   </p>
                   <div className="space-y-2">
                     {pog.optionGroup.options.map((option) => (
@@ -471,12 +461,12 @@ export default function PublicMenuPage() {
                           type="checkbox"
                           checked={customization[pog.optionGroup.id]?.includes(option.id) || false}
                           onChange={(e) => handleOptionChange(pog.optionGroup.id, option.id, e.target.checked)}
-                          className="rounded"
+                          className="rounded text-primary"
                         />
-                        <span className="flex-1 text-gray-900">{option.name}</span>
-                        {option.priceDelta > 0 && (
-                          <span className="text-sm text-gray-600">
-                            +R$ {Number(option.priceDelta).toFixed(2)}
+                        <span className="flex-1 text-foreground">{option.name}</span>
+                        {Number(option.priceDelta) > 0 && (
+                          <span className="text-sm text-muted-foreground">
+                            + R$ {Number(option.priceDelta).toFixed(2)}
                           </span>
                         )}
                       </label>
@@ -486,8 +476,8 @@ export default function PublicMenuPage() {
               ))}
               
               <div className="flex justify-between items-center pt-4 border-t">
-                <span className="text-lg font-bold text-gray-900">
-                  Total: R$ {calculateItemPrice(selectedProduct, customization).toFixed(2)}
+                <span className="text-lg font-bold text-foreground">
+                  R$ {calculateItemPrice(selectedProduct, customization).toFixed(2)}
                 </span>
                 <div className="space-x-2">
                   <Button variant="outline" onClick={() => setSelectedProduct(null)}>

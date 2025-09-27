@@ -153,7 +153,7 @@ export default function CreateOrderPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-card shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center py-4">
             <Button 
@@ -166,8 +166,8 @@ export default function CreateOrderPage() {
               Voltar
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Finalizar Pedido</h1>
-              <p className="text-sm text-gray-600">{checkoutData.restaurantName}</p>
+              <h1 className="text-2xl font-bold text-foreground">Finalizar Pedido</h1>
+              <p className="text-sm text-muted-foreground">{checkoutData.restaurantName}</p>
             </div>
           </div>
         </div>
@@ -230,13 +230,13 @@ export default function CreateOrderPage() {
                         value="delivery"
                         checked={fulfillment === 'delivery'}
                         onChange={(e) => setFulfillment(e.target.value as 'delivery' | 'pickup')}
-                        className="text-orange-600"
+                        className="text-primary"
                       />
                       <div className="flex items-center">
-                        <MapPin className="h-5 w-5 mr-2" />
+                        <MapPin className="h-5 w-5 text-muted-foreground mr-2" />
                         <div>
-                          <div className="font-medium">Entrega</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-foreground">Entrega</div>
+                          <div className="text-sm text-muted-foreground">
                             Taxa: R$ {calculateDeliveryFee().toFixed(2)}
                           </div>
                         </div>
@@ -249,13 +249,13 @@ export default function CreateOrderPage() {
                         value="pickup"
                         checked={fulfillment === 'pickup'}
                         onChange={(e) => setFulfillment(e.target.value as 'delivery' | 'pickup')}
-                        className="text-orange-600"
+                        className="text-primary"
                       />
                       <div className="flex items-center">
-                        <Clock className="h-5 w-5 mr-2" />
+                        <Clock className="h-5 w-5 text-muted-foreground mr-2" />
                         <div>
-                          <div className="font-medium">Retirada</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-foreground">Retirada</div>
+                          <div className="text-sm text-muted-foreground">
                             Retirar no restaurante
                           </div>
                         </div>
@@ -348,11 +348,11 @@ export default function CreateOrderPage() {
                         value="cash"
                         checked={paymentMethod === 'cash'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="text-orange-600"
+                        className="text-primary"
                       />
                       <div className="flex items-center">
-                        <Banknote className="h-5 w-5 mr-2" />
-                        <span>Dinheiro</span>
+                        <Banknote className="h-5 w-5 text-muted-foreground mr-2" />
+                        <span className="text-foreground">Dinheiro</span>
                       </div>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer">
@@ -362,11 +362,11 @@ export default function CreateOrderPage() {
                         value="pix"
                         checked={paymentMethod === 'pix'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="text-orange-600"
+                        className="text-primary"
                       />
                       <div className="flex items-center">
-                        <Smartphone className="h-5 w-5 mr-2" />
-                        <span>PIX</span>
+                        <Smartphone className="h-5 w-5 text-muted-foreground mr-2" />
+                        <span className="text-foreground">PIX</span>
                       </div>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer">
@@ -376,11 +376,11 @@ export default function CreateOrderPage() {
                         value="card"
                         checked={paymentMethod === 'card'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="text-orange-600"
+                        className="text-primary"
                       />
                       <div className="flex items-center">
-                        <CreditCard className="h-5 w-5 mr-2" />
-                        <span>Cartão na entrega</span>
+                        <CreditCard className="h-5 w-5 text-muted-foreground mr-2" />
+                        <span className="text-foreground">Cartão na entrega</span>
                       </div>
                     </label>
                   </div>
@@ -415,30 +415,30 @@ export default function CreateOrderPage() {
                     {checkoutData.items.map((item, index) => (
                       <div key={index} className="flex justify-between">
                         <div className="flex-1">
-                          <div className="font-medium text-gray-900">
+                          <div className="font-medium text-foreground">
                             {item.quantity}x {item.productName}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-muted-foreground">
                             R$ {item.totalPrice.toFixed(2)} cada
                           </div>
                         </div>
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-foreground">
                           R$ {(item.totalPrice * item.quantity).toFixed(2)}
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="border-t pt-4 space-y-2">
-                    <div className="flex justify-between text-gray-600">
+                  <div className="border-t border-border pt-4 space-y-2">
+                    <div className="flex justify-between text-muted-foreground">
                       <span>Subtotal</span>
                       <span>R$ {calculateSubtotal().toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-gray-600">
+                    <div className="flex justify-between text-muted-foreground">
                       <span>Taxa de entrega</span>
                       <span>R$ {calculateDeliveryFee().toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-2">
+                    <div className="flex justify-between text-lg font-bold text-foreground border-t border-border pt-2">
                       <span>Total</span>
                       <span>R$ {calculateTotal().toFixed(2)}</span>
                     </div>

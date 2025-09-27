@@ -217,9 +217,9 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-card shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
@@ -233,11 +233,11 @@ export default function SettingsPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
-                <p className="text-sm text-gray-600">Gerencie as configurações do seu restaurante</p>
+                <h1 className="text-2xl font-bold text-foreground">Configurações</h1>
+                <p className="text-sm text-muted-foreground">Gerencie as configurações do seu restaurante</p>
               </div>
             </div>
-            <Button onClick={handleSave} disabled={saving}>
+            <Button onClick={handleSave} disabled={saving} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Save className="h-4 w-4 mr-2" />
               {saving ? 'Salvando...' : 'Salvar'}
             </Button>
@@ -259,8 +259,8 @@ export default function SettingsPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md ${
                       activeTab === tab.id
-                        ? 'bg-orange-100 text-orange-700'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                     }`}
                   >
                     <Icon className="h-5 w-5 mr-3" />
@@ -415,9 +415,9 @@ export default function SettingsPage() {
                           type="checkbox"
                           checked={!hours.closed}
                           onChange={(e) => updateOpeningHours(day, 'closed', !e.target.checked)}
-                          className="rounded"
+                          className="rounded text-primary"
                         />
-                        <span className="text-sm text-gray-600">Aberto</span>
+                        <span className="text-sm text-foreground">Aberto</span>
                       </div>
                       {!hours.closed && (
                         <>
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                               className="w-24"
                             />
                           </div>
-                          <span className="text-gray-600">às</span>
+                          <span className="text-foreground">às</span>
                           <div>
                             <Input
                               type="time"
@@ -493,18 +493,18 @@ export default function SettingsPage() {
                         type="checkbox"
                         checked={settings.pickupEnabled}
                         onChange={(e) => updateSettings('pickupEnabled', e.target.checked)}
-                        className="rounded"
+                        className="rounded text-primary"
                       />
-                      <Label>Permitir retirada no local</Label>
+                      <Label className="text-foreground">Permitir retirada no local</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         checked={settings.acceptingOrders}
                         onChange={(e) => updateSettings('acceptingOrders', e.target.checked)}
-                        className="rounded"
+                        className="rounded text-primary"
                       />
-                      <Label>Aceitar novos pedidos</Label>
+                      <Label className="text-foreground">Aceitar novos pedidos</Label>
                     </div>
                   </div>
                 </CardContent>
@@ -526,27 +526,27 @@ export default function SettingsPage() {
                         type="checkbox"
                         checked={settings.emailNotifications}
                         onChange={(e) => updateSettings('emailNotifications', e.target.checked)}
-                        className="rounded"
+                        className="rounded text-primary"
                       />
-                      <Label>Notificações por email</Label>
+                      <Label className="text-foreground">Notificações por email</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         checked={settings.smsNotifications}
                         onChange={(e) => updateSettings('smsNotifications', e.target.checked)}
-                        className="rounded"
+                        className="rounded text-primary"
                       />
-                      <Label>Notificações por SMS</Label>
+                      <Label className="text-foreground">Notificações por SMS</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         checked={settings.orderNotifications}
                         onChange={(e) => updateSettings('orderNotifications', e.target.checked)}
-                        className="rounded"
+                        className="rounded text-primary"
                       />
-                      <Label>Notificações de novos pedidos</Label>
+                      <Label className="text-foreground">Notificações de novos pedidos</Label>
                     </div>
                   </div>
                 </CardContent>
@@ -568,7 +568,7 @@ export default function SettingsPage() {
                       id="theme"
                       value={settings.theme}
                       onChange={(e) => updateSettings('theme', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     >
                       <option value="light">Claro</option>
                       <option value="dark">Escuro</option>
@@ -581,7 +581,7 @@ export default function SettingsPage() {
                       id="language"
                       value={settings.language}
                       onChange={(e) => updateSettings('language', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     >
                       <option value="pt-BR">Português (Brasil)</option>
                       <option value="en-US">English (US)</option>

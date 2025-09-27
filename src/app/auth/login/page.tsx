@@ -60,8 +60,8 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center">
-            <Store className="h-12 w-12 text-orange-600" />
-            <h1 className="ml-2 text-3xl font-bold text-gray-900">DeliveryNext</h1>
+            <Store className="h-12 w-12 text-primary" />
+            <h1 className="ml-2 text-2xl font-bold text-foreground">DeliveryNext</h1>
           </div>
           <h2 className="mt-6 text-2xl font-bold text-gray-900">
             Entre na sua conta
@@ -145,12 +145,12 @@ export default function LoginPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <Link href="/auth/register/customer" className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full text-orange-600 border-orange-600 hover:bg-orange-50">
+                  <Button variant="outline" size="sm" className="w-full text-primary border-primary hover:bg-primary hover:text-primary-foreground">
                     Sou Cliente
                   </Button>
                 </Link>
                 <Link href="/auth/register/restaurant" className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full text-green-600 border-green-600 hover:bg-green-50">
+                  <Button variant="outline" size="sm" className="w-full text-primary border-primary hover:bg-primary hover:text-primary-foreground">
                     Tenho Restaurante
                   </Button>
                 </Link>

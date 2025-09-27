@@ -12,7 +12,8 @@ import {
   Plus,
   Settings,
   LogOut,
-  Store
+  Store,
+  ArrowRight
 } from 'lucide-react'
 
 interface User {
@@ -102,18 +103,18 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <Store className="h-8 w-8 text-orange-600" />
+              <Store className="h-8 w-8 text-primary" />
               <div className="ml-3">
-                <h1 className="text-xl font-semibold text-gray-900">
+                <h1 className="text-xl font-semibold text-foreground">
                   {user?.tenant.name}
                 </h1>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Olá, {user?.name}
                 </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" onClick={() => router.push('/settings')}>
+              <Button onClick={() => router.push('/settings')} className="bg-accent text-accent-foreground hover:bg-accent/80">
                 <Settings className="h-4 w-4 mr-2" />
                 Configurações
               </Button>
@@ -149,7 +150,7 @@ export default function DashboardPage() {
               <Package className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-orange-600">{stats.pendingOrders}</div>
+              <div className="text-2xl font-bold text-primary">{stats.pendingOrders}</div>
               <p className="text-xs text-gray-600">
                 Aguardando processamento
               </p>
@@ -187,56 +188,29 @@ export default function DashboardPage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/orders')}>
-            <CardHeader>
-              <CardTitle className="flex items-center text-gray-800">
-                <ShoppingCart className="h-5 w-5 mr-2 text-orange-600" />
-                Pedidos
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                Gerencie pedidos e acompanhe o status
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">
-                Ver Pedidos
-              </Button>
-            </CardContent>
-          </Card>
+          <div onClick={() => router.push('/orders')} className="cursor-pointer flex items-center justify-between p-4 rounded-lg bg-card hover:bg-muted transition-colors border border-border">
+            <div className="flex items-center">
+              <ShoppingCart className="h-5 w-5 mr-2 text-primary" />
+              <h3 className="font-medium text-foreground">Pedidos</h3>
+            </div>
+            <ArrowRight className="h-5 w-5 text-muted-foreground" />
+          </div>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/menu')}>
-            <CardHeader>
-              <CardTitle className="flex items-center text-gray-800">
-                <Package className="h-5 w-5 mr-2 text-orange-600" />
-                Cardápio
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                Gerencie produtos e categorias
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">
-                Gerenciar Cardápio
-              </Button>
-            </CardContent>
-          </Card>
+          <div onClick={() => router.push('/menu')} className="cursor-pointer flex items-center justify-between p-4 rounded-lg bg-card hover:bg-muted transition-colors border border-border">
+            <div className="flex items-center">
+              <Package className="h-5 w-5 mr-2 text-primary" />
+              <h3 className="font-medium text-foreground">Cardápio</h3>
+            </div>
+            <ArrowRight className="h-5 w-5 text-muted-foreground" />
+          </div>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/employees')}>
-            <CardHeader>
-              <CardTitle className="flex items-center text-gray-800">
-                <Users className="h-5 w-5 mr-2 text-orange-600" />
-                Funcionários
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                Gerencie equipe e permissões
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">
-                Gerenciar Equipe
-              </Button>
-            </CardContent>
-          </Card>
+          <div onClick={() => router.push('/employees')} className="cursor-pointer flex items-center justify-between p-4 rounded-lg bg-card hover:bg-muted transition-colors border border-border">
+            <div className="flex items-center">
+              <Users className="h-5 w-5 mr-2 text-primary" />
+              <h3 className="font-medium text-foreground">Funcionários</h3>
+            </div>
+            <ArrowRight className="h-5 w-5 text-muted-foreground" />
+          </div>
         </div>
       </main>
     </div>

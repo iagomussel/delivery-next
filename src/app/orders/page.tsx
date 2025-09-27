@@ -16,6 +16,7 @@ import {
   XCircle,
   Package
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface Order {
   id: string
@@ -31,6 +32,8 @@ interface Order {
   }>
   createdAt: string
   updatedAt: string
+  restaurantName: string
+  itemCount: number
 }
 
 export default function OrdersPage() {
@@ -136,7 +139,7 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-card shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
@@ -150,8 +153,8 @@ export default function OrdersPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Pedidos</h1>
-                <p className="text-sm text-gray-600">Gerencie pedidos e acompanhe o status</p>
+                <h1 className="text-2xl font-bold text-foreground">Meus Pedidos</h1>
+                <p className="text-sm text-muted-foreground">Acompanhe o status e histórico dos seus pedidos</p>
               </div>
             </div>
             <Button onClick={() => router.push('/order/create')}>
@@ -168,13 +171,13 @@ export default function OrdersPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
                 type="text"
-                placeholder="Buscar por cliente ou telefone..."
+                placeholder="Buscar pedidos..."
+                className="pl-10"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
           </div>
@@ -182,7 +185,7 @@ export default function OrdersPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-3 py-2 border border-input rounded-md focus:ring-ring focus:border-input"
             >
               <option value="all">Todos os status</option>
               <option value="pending">Pendente</option>
@@ -203,17 +206,14 @@ export default function OrdersPage() {
           {filteredOrders.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
-                <Package className="h-12 w-12 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum pedido encontrado</h3>
-                <p className="text-gray-600 mb-4">
-                  {searchTerm || statusFilter !== 'all' 
-                    ? 'Tente ajustar os filtros de busca.' 
-                    : 'Comece criando seu primeiro pedido.'
-                  }
+                <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">Nenhum pedido encontrado</h3>
+                <p className="text-muted-foreground mb-4">
+                  Quando você fizer seu primeiro pedido, ele aparecerá aqui.
                 </p>
-                <Button onClick={() => router.push('/order/create')}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Criar Primeiro Pedido
+                <Button onClick={() => router.push('/restaurants/discover')} className="bg-primary hover:bg-primary/90">
+                  <Search className="h-4 w-4 mr-2" />
+                  Descobrir Restaurantes
                 </Button>
               </CardContent>
             </Card>
@@ -224,7 +224,7 @@ export default function OrdersPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-foreground">
                           {order.customerName}
                         </h3>
                         <Badge className={getStatusColor(order.status)}>
@@ -234,20 +234,20 @@ export default function OrdersPage() {
                           </span>
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-muted-foreground mb-2">
                         📞 {order.customerPhone}
                       </p>
-                      <div className="text-sm text-gray-600 mb-3">
-                        Pedido #{order.id} • {new Date(order.createdAt).toLocaleString('pt-BR')}
+                      <div className="text-sm text-muted-foreground mb-3">
+                        Pedido #{order.id} • <span className="text-muted-foreground">{new Date(order.createdAt).toLocaleDateString('pt-BR')} às {new Date(order.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {order.items.map((item) => (
-                          <span key={item.id} className="text-sm bg-gray-100 px-2 py-1 rounded">
+                          <span key={item.id} className="text-sm bg-secondary text-secondary-foreground px-2 py-1 rounded">
                             {item.quantity}x {item.name}
                           </span>
                         ))}
                       </div>
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-foreground">
                         Total: R$ {order.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </div>
                     </div>

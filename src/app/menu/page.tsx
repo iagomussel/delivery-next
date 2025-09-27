@@ -19,6 +19,7 @@ import {
   DollarSign,
   Tag
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface Category {
   id: string
@@ -150,8 +151,8 @@ export default function MenuManagementPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Gerenciar Cardápio</h1>
-                <p className="text-sm text-gray-600">Gerencie produtos e categorias</p>
+                <h1 className="text-2xl font-bold text-foreground">Gerenciar Cardápio</h1>
+                <p className="text-sm text-muted-foreground">Visualize e edite suas categorias e produtos</p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -178,8 +179,8 @@ export default function MenuManagementPage() {
                 onClick={() => setActiveTab('categories')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'categories'
-                    ? 'border-orange-500 text-orange-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
                 }`}
               >
                 Categorias ({categories.length})
@@ -188,8 +189,8 @@ export default function MenuManagementPage() {
                 onClick={() => setActiveTab('products')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'products'
-                    ? 'border-orange-500 text-orange-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
                 }`}
               >
                 Produtos ({products.length})
@@ -202,13 +203,13 @@ export default function MenuManagementPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
                 type="text"
                 placeholder={activeTab === 'categories' ? 'Buscar categorias...' : 'Buscar produtos...'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="pl-10"
               />
             </div>
           </div>
@@ -217,7 +218,7 @@ export default function MenuManagementPage() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
                 <option value="all">Todas as categorias</option>
                 {categories.map(category => (
@@ -230,7 +231,7 @@ export default function MenuManagementPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
             >
               <option value="all">Todos os status</option>
               <option value="active">Ativo</option>
@@ -249,9 +250,9 @@ export default function MenuManagementPage() {
             {filteredCategories.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
-                  <Tag className="h-12 w-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhuma categoria encontrada</h3>
-                  <p className="text-gray-600 mb-4">
+                  <Tag className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-foreground mb-2">Nenhuma categoria encontrada</h3>
+                  <p className="text-muted-foreground mb-4">
                     {searchTerm || statusFilter !== 'all' 
                       ? 'Tente ajustar os filtros de busca.' 
                       : 'Comece criando sua primeira categoria.'
@@ -270,7 +271,7 @@ export default function MenuManagementPage() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900">
+                          <h3 className="text-lg font-semibold text-foreground">
                             {category.name}
                           </h3>
                           <Badge className={getStatusColor(category.isActive)}>
@@ -278,9 +279,9 @@ export default function MenuManagementPage() {
                           </Badge>
                         </div>
                         {category.description && (
-                          <p className="text-sm text-gray-600 mb-2">{category.description}</p>
+                          <p className="text-sm text-muted-foreground mb-2">{category.description}</p>
                         )}
-                        <div className="flex items-center text-sm text-gray-600">
+                        <div className="flex items-center text-sm text-muted-foreground">
                           <Package className="h-4 w-4 mr-1" />
                           {category.productCount} produtos
                           <span className="mx-2">•</span>
@@ -311,9 +312,9 @@ export default function MenuManagementPage() {
             {filteredProducts.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
-                  <Package className="h-12 w-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum produto encontrado</h3>
-                  <p className="text-gray-600 mb-4">
+                  <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-foreground mb-2">Nenhum produto encontrado</h3>
+                  <p className="text-muted-foreground mb-4">
                     {searchTerm || categoryFilter !== 'all' || statusFilter !== 'all'
                       ? 'Tente ajustar os filtros de busca.' 
                       : 'Comece criando seu primeiro produto.'
@@ -332,7 +333,7 @@ export default function MenuManagementPage() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900">
+                          <h3 className="text-lg font-semibold text-foreground">
                             {product.name}
                           </h3>
                           <div className="flex gap-2">
@@ -344,8 +345,8 @@ export default function MenuManagementPage() {
                             </Badge>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{product.description}</p>
-                        <div className="flex items-center text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground mb-2">{product.description}</p>
+                        <div className="flex items-center text-sm text-muted-foreground">
                           <DollarSign className="h-4 w-4 mr-1" />
                           R$ {product.basePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </div>

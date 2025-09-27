@@ -17,8 +17,10 @@ import {
   ArrowLeft,
   Edit,
   Save,
-  X
+  X,
+  Store
 } from 'lucide-react'
+import Link from 'next/link'
 
 interface CustomerOrder {
   id: string
@@ -107,15 +109,15 @@ export default function CustomerProfilePage() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-accent text-accent-foreground'
       case 'confirmed':
       case 'preparing':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-secondary text-secondary-foreground'
       case 'ready':
       case 'out_for_delivery':
-        return 'bg-green-100 text-green-800'
+        return 'bg-primary text-primary-foreground'
       case 'delivered':
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-muted text-muted-foreground'
       case 'canceled':
         return 'bg-red-100 text-red-800'
       default:
@@ -198,7 +200,7 @@ export default function CustomerProfilePage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Store className="h-5 w-5 mr-2 text-green-600" />
+                  <Store className="h-5 w-5 mr-2 text-primary" />
                   Negócios
                 </CardTitle>
                 <CardDescription>
@@ -213,7 +215,7 @@ export default function CustomerProfilePage() {
                     Transforme sua paixão pela culinária em um negócio lucrativo.
                   </p>
                   <Link href="/auth/register/restaurant">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">
+                    <Button className="w-full bg-primary hover:bg-primary/90">
                       <Store className="h-4 w-4 mr-2" />
                       Criar Restaurante
                     </Button>

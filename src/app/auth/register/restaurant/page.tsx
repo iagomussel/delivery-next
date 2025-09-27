@@ -90,16 +90,16 @@ export default function RestaurantRegisterPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center mb-4">
-            <Link href="/restaurant-owner" className="flex items-center mr-4 text-gray-600 hover:text-gray-800">
+            <Link href="/restaurant-owner" className="flex items-center mr-4 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span>Voltar</span>
             </Link>
           </div>
           <div className="flex justify-center mb-4">
-            <Store className="h-12 w-12 text-green-600" />
+            <Store className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">Cadastrar Restaurante</CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardTitle className="text-2xl font-bold text-foreground">Cadastrar Restaurante</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Crie sua conta e comece a vender hoje mesmo
           </CardDescription>
         </CardHeader>
@@ -122,7 +122,7 @@ export default function RestaurantRegisterPage() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Seu nome completo"
               />
             </div>
@@ -138,7 +138,7 @@ export default function RestaurantRegisterPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="seu@email.com"
               />
             </div>
@@ -154,7 +154,7 @@ export default function RestaurantRegisterPage() {
                 required
                 value={formData.tenantName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Nome da sua empresa"
               />
             </div>
@@ -170,7 +170,7 @@ export default function RestaurantRegisterPage() {
                 required
                 value={formData.restaurantName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Nome do seu restaurante"
               />
             </div>
@@ -187,7 +187,7 @@ export default function RestaurantRegisterPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 pr-10 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   placeholder="Mínimo 6 caracteres"
                 />
                 <button
@@ -211,14 +211,14 @@ export default function RestaurantRegisterPage() {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Digite a senha novamente"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full bg-primary hover:bg-primary/90"
               disabled={loading}
             >
               {loading ? 'Criando conta...' : 'Cadastrar Restaurante'}
@@ -228,7 +228,7 @@ export default function RestaurantRegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Já tem uma conta?{' '}
-              <Link href="/auth/login" className="text-green-600 hover:text-green-500 font-medium">
+              <Link href="/auth/login" className="text-primary hover:text-primary/90 font-medium">
                 Fazer login
               </Link>
             </p>
@@ -237,15 +237,15 @@ export default function RestaurantRegisterPage() {
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Quer fazer pedidos?{' '}
-              <Link href="/auth/register/customer" className="text-orange-600 hover:text-orange-500 font-medium">
+              <Link href="/auth/register/customer" className="text-primary hover:text-primary/90 font-medium">
                 Criar conta de cliente
               </Link>
             </p>
           </div>
 
-          <div className="mt-6 p-4 bg-green-50 rounded-lg">
-            <h4 className="font-medium text-green-800 mb-2">✅ Benefícios inclusos:</h4>
-            <ul className="text-sm text-green-700 space-y-1">
+          <div className="mt-6 p-4 bg-accent rounded-lg">
+            <h4 className="font-medium text-accent-foreground mb-2">✅ Benefícios inclusos:</h4>
+            <ul className="text-sm text-muted-foreground space-y-1">
               <li>• Cadastro 100% gratuito</li>
               <li>• Dashboard completo</li>
               <li>• Gestão de pedidos em tempo real</li>

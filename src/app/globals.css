@@ -1,8 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 100%; /* white */
+  --foreground: 222.2 47.4% 11.2%; /* near black */
+
+  --muted: 210 40% 96.1%; /* light gray */
+  --muted-foreground: 215.4 16.3% 46.9%; /* medium gray */
+
+  --popover: 0 0% 100%; /* white */
+  --popover-foreground: 222.2 47.4% 11.2%; /* near black */
+
+  --border: 214.3 31.8% 91.4%; /* light gray border */
+  --input: 214.3 31.8% 91.4%; /* light gray input border */
+  --card: 0 0% 100%; /* white */
+  --card-foreground: 222.2 47.4% 11.2%; /* near black */
+
+  --primary: 40 96% 51%; /* yellow/orange */
+  --primary-foreground: 30 0% 100%; /* white */
+
+  --secondary: 210 40% 96.1%; /* light gray */
+  --secondary-foreground: 222.2 47.4% 11.2%; /* near black */
+
+  --accent: 40 96% 51%; /* yellow/orange, matching primary for highlight */
+  --accent-foreground: 222.2 47.4% 11.2%; /* near black */
+
+  --destructive: 0 84.2% 60.2%; /* red */
+  --destructive-foreground: 0 0% 100%; /* white */
+
+  --ring: 40 96% 51%; /* yellow/orange, matching primary for focus ring */
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 47.4% 11.2%; /* dark gray */
+  --foreground: 210 40% 96.1%; /* light gray */
+
+  --muted: 217.2 32.4% 14.8%; /* darker gray */
+  --muted-foreground: 215 20.2% 65.1%; /* light medium gray */
+
+  --popover: 222.2 47.4% 11.2%; /* dark gray */
+  --popover-foreground: 210 40% 96.1%; /* light gray */
+
+  --border: 217.2 32.4% 14.8%; /* darker gray border */
+  --input: 217.2 32.4% 14.8%; /* darker gray input border */
+  --card: 222.2 47.4% 11.2%; /* dark gray */
+  --card-foreground: 210 40% 96.1%; /* light gray */
+
+  --primary: 40 96% 51%; /* yellow/orange */
+  --primary-foreground: 30 0% 100%; /* white */
+
+  --secondary: 217.2 32.4% 14.8%; /* darker gray */
+  --secondary-foreground: 210 40% 96.1%; /* light gray */
+
+  --accent: 40 96% 51%; /* yellow/orange */
+  --accent-foreground: 210 40% 96.1%; /* light gray */
+
+  --destructive: 0 62.8% 30.6%; /* dark red */
+  --destructive-foreground: 0 0% 100%; /* white */
+
+  --ring: 40 96% 51%; /* yellow/orange */
 }
 
 @theme inline {

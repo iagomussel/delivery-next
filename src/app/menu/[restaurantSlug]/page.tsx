@@ -179,8 +179,8 @@ export default function MenuPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Restaurante não encontrado</h1>
-          <p className="text-gray-600">O restaurante que você está procurando não existe.</p>
+          <h1 className="text-2xl font-bold text-foreground">Restaurante não encontrado</h1>
+          <p className="text-muted-foreground">O restaurante que você está procurando não existe.</p>
         </div>
       </div>
     )
@@ -193,23 +193,27 @@ export default function MenuPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{restaurant.name}</h1>
-              <div className="flex items-center text-sm text-gray-600 mt-1">
+              <h1 className="text-2xl font-bold text-foreground">{restaurant.name}</h1>
+              <div className="flex items-center text-sm text-muted-foreground mt-1 space-x-4">
+                <Clock className="h-4 w-4 mr-1" />
+                <span>Abre às {restaurant.openingHours?.from}</span>
+                <span>•</span>
                 <MapPin className="h-4 w-4 mr-1" />
-                <span>{restaurant.address?.street}, {restaurant.address?.number}</span>
+                <span>{restaurant.address?.city}</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center text-sm text-gray-600">
-                <Clock className="h-4 w-4 mr-1" />
-                <span>{restaurant.acceptingOrders ? 'Aberto' : 'Fechado'}</span>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <span className="text-foreground">
+                  {restaurant.acceptingOrders ? 'Aberto' : 'Fechado'}
+                </span>
               </div>
               <Button className="relative">
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Carrinho
                 {cart.length > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-orange-600 text-white">
-                    {cart.reduce((total, item) => total + item.quantity, 0)}
+                  <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground min-w-[20px] h-5 flex items-center justify-center text-xs">
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </Badge>
                 )}
               </Button>
@@ -224,20 +228,20 @@ export default function MenuPage() {
           <div className="lg:col-span-2">
             {restaurant.categories.map((category) => (
               <div key={category.id} className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{category.name}</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">{category.name}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {category.products.map((product) => (
                     <Card key={product.id} className="cursor-pointer hover:shadow-md transition-shadow">
                       <CardHeader>
                         <div className="flex justify-between items-start">
                           <div>
-                            <CardTitle className="text-lg">{product.name}</CardTitle>
-                            <CardDescription className="mt-1">
+                            <CardTitle className="text-lg text-foreground">{product.name}</CardTitle>
+                            <CardDescription className="mt-1 text-muted-foreground">
                               {product.description}
                             </CardDescription>
                           </div>
                           <div className="text-right">
-                            <span className="text-lg font-bold text-orange-600">
+                            <span className="font-semibold text-foreground">
                               R$ {Number(product.basePrice).toFixed(2)}
                             </span>
                           </div>
@@ -264,22 +268,24 @@ export default function MenuPage() {
           <div className="lg:col-span-1">
             <Card className="sticky top-24">
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="flex items-center text-foreground">
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Carrinho
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {cart.length === 0 ? (
-                  <p className="text-gray-600 text-center py-4">Carrinho vazio</p>
+                  <CardContent className="text-center py-4">
+                    <p className="text-muted-foreground">Carrinho vazio</p>
+                  </CardContent>
                 ) : (
                   <div className="space-y-4">
                     {cart.map((item, index) => (
                       <div key={index} className="flex items-center justify-between">
                         <div className="flex-1">
-                          <p className="font-medium">{item.productName}</p>
-                          <p className="text-sm text-gray-600">
-                            R$ {item.totalPrice.toFixed(2)} cada
+                          <p className="font-medium text-foreground">{item.productName}</p>
+                          <p className="text-sm text-muted-foreground">
+                            R$ {item.basePrice.toFixed(2)} cada
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -290,7 +296,7 @@ export default function MenuPage() {
                           >
                             <Minus className="h-4 w-4" />
                           </Button>
-                          <span className="w-8 text-center">{item.quantity}</span>
+                          <span className="w-8 text-center text-foreground">{item.quantity}</span>
                           <Button
                             size="sm"
                             variant="outline"
@@ -303,7 +309,7 @@ export default function MenuPage() {
                     ))}
                     
                     <div className="border-t pt-4">
-                      <div className="flex justify-between items-center text-lg font-bold">
+                      <div className="flex justify-between items-center text-lg font-bold text-foreground">
                         <span>Total:</span>
                         <span>R$ {getCartTotal().toFixed(2)}</span>
                       </div>
@@ -324,20 +330,25 @@ export default function MenuPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <Card className="w-full max-w-md max-h-[80vh] overflow-y-auto">
             <CardHeader>
-              <CardTitle>{selectedProduct.name}</CardTitle>
-              <CardDescription>{selectedProduct.description}</CardDescription>
+              <CardTitle className="flex items-center text-foreground">
+                {selectedProduct.name}
+                <Badge variant="outline" className="ml-2 text-primary border-primary">
+                  R$ {Number(selectedProduct.basePrice).toFixed(2)}
+                </Badge>
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">{selectedProduct.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {selectedProduct.productOptionGroups.map((pog) => (
                 <div key={pog.optionGroup.id}>
-                  <h4 className="font-medium mb-2">
+                  <h4 className="font-medium mb-2 text-foreground">
                     {pog.optionGroup.name}
-                    {pog.optionGroup.required && <span className="text-red-500 ml-1">*</span>}
+                    {pog.optionGroup.required && (
+                      <span className="ml-1 text-muted-foreground text-xs">(Obrigatório)</span>
+                    )}
                   </h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {pog.optionGroup.minSelect > 0 && `Mínimo: ${pog.optionGroup.minSelect}`}
-                    {pog.optionGroup.maxSelect > 0 && ` | Máximo: ${pog.optionGroup.maxSelect}`}
-                    {pog.optionGroup.freeQuota > 0 && ` | Grátis: ${pog.optionGroup.freeQuota}`}
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Escolha suas opções:
                   </p>
                   <div className="space-y-2">
                     {pog.optionGroup.options.map((option) => (
@@ -348,10 +359,10 @@ export default function MenuPage() {
                           onChange={(e) => handleOptionChange(pog.optionGroup.id, option.id, e.target.checked)}
                           className="rounded"
                         />
-                        <span className="flex-1">{option.name}</span>
-                        {option.priceDelta > 0 && (
-                          <span className="text-sm text-gray-600">
-                            +R$ {Number(option.priceDelta).toFixed(2)}
+                        <span className="flex-1 text-foreground">{option.name}</span>
+                        {Number(option.priceDelta) > 0 && (
+                          <span className="text-sm text-muted-foreground">
+                            + R$ {Number(option.priceDelta).toFixed(2)}
                           </span>
                         )}
                       </label>
@@ -361,8 +372,8 @@ export default function MenuPage() {
               ))}
               
               <div className="flex justify-between items-center pt-4 border-t">
-                <span className="text-lg font-bold">
-                  Total: R$ {calculateItemPrice(selectedProduct, customization).toFixed(2)}
+                <span className="text-lg font-bold text-foreground">
+                  R$ {calculateItemPrice(selectedProduct, customization).toFixed(2)}
                 </span>
                 <div className="space-x-2">
                   <Button variant="outline" onClick={() => setSelectedProduct(null)}>

@@ -22,8 +22,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <Store className="h-8 w-8 text-orange-600" />
-              <h1 className="ml-2 text-2xl font-bold text-gray-900">DeliveryNext</h1>
+              <Store className="h-8 w-8 text-primary" />
+              <h1 className="ml-2 text-2xl font-bold text-foreground">DeliveryNext</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/auth/login">
@@ -40,10 +40,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl font-bold text-foreground mb-6">
             Comida deliciosa na sua porta
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Descubra os melhores restaurantes da sua região e peça sua comida favorita 
             com entrega rápida e segura.
           </p>
@@ -55,7 +55,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/auth/register/customer">
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                 Criar Conta Grátis
               </Button>
             </Link>
@@ -67,10 +67,10 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Por que escolher o DeliveryNext?
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               A melhor experiência de delivery da sua cidade
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="text-center">
               <CardHeader>
-                <Clock className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <Clock className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Entrega Rápida</CardTitle>
               </CardHeader>
               <CardContent>
@@ -90,7 +90,7 @@ export default function HomePage() {
 
             <Card className="text-center">
               <CardHeader>
-                <MapPin className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Cobertura Total</CardTitle>
               </CardHeader>
               <CardContent>
@@ -102,7 +102,7 @@ export default function HomePage() {
 
             <Card className="text-center">
               <CardHeader>
-                <Star className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <Star className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Qualidade Garantida</CardTitle>
               </CardHeader>
               <CardContent>
@@ -114,7 +114,7 @@ export default function HomePage() {
 
             <Card className="text-center">
               <CardHeader>
-                <Smartphone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <Smartphone className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Fácil de Usar</CardTitle>
               </CardHeader>
               <CardContent>
@@ -126,7 +126,7 @@ export default function HomePage() {
 
             <Card className="text-center">
               <CardHeader>
-                <CreditCard className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CreditCard className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Pagamento Seguro</CardTitle>
               </CardHeader>
               <CardContent>
@@ -138,7 +138,7 @@ export default function HomePage() {
 
             <Card className="text-center">
               <CardHeader>
-                <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle>Suporte 24/7</CardTitle>
               </CardHeader>
               <CardContent>
@@ -152,44 +152,44 @@ export default function HomePage() {
       </section>
 
       {/* How it Works */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Como funciona
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               Peça sua comida em 3 passos simples
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-orange-600">1</span>
+              <div className="bg-accent rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-accent-foreground">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Escolha o Restaurante</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-foreground mb-2">Escolha o Restaurante</h3>
+              <p className="text-muted-foreground">
                 Navegue pelos restaurantes disponíveis na sua região e escolha seu favorito.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-orange-600">2</span>
+              <div className="bg-accent rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-accent-foreground">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Monte seu Pedido</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-foreground mb-2">Monte seu Pedido</h3>
+              <p className="text-muted-foreground">
                 Adicione seus pratos favoritos ao carrinho e personalize como quiser.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-orange-600">3</span>
+              <div className="bg-accent rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-accent-foreground">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Receba em Casa</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-foreground mb-2">Receba em Casa</h3>
+              <p className="text-muted-foreground">
                 Finalize o pagamento e acompanhe a entrega até chegar na sua porta.
               </p>
             </div>
@@ -198,12 +198,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-orange-600">
+      <section className="py-16 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-primary-foreground mb-4">
             Pronto para começar?
           </h2>
-          <p className="text-xl text-orange-100 mb-8">
+          <p className="text-xl text-primary-foreground/90 mb-8">
             Cadastre-se agora e ganhe desconto no primeiro pedido!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -213,7 +213,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/restaurants/discover">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-orange-600">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
                 Ver Restaurantes
               </Button>
             </Link>
@@ -222,60 +222,60 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-card text-card-foreground py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center mb-4">
-                <Store className="h-8 w-8 text-orange-600" />
-                <h4 className="ml-2 text-2xl font-bold">DeliveryNext</h4>
+                <Store className="h-8 w-8 text-primary" />
+                <h4 className="ml-2 text-2xl font-bold text-foreground">DeliveryNext</h4>
               </div>
-              <p className="text-gray-300">
+              <p className="text-muted-foreground">
                 A melhor plataforma de delivery da sua cidade.
               </p>
             </div>
 
             <div>
-              <h5 className="font-semibold mb-4">Para Clientes</h5>
+              <h5 className="font-semibold mb-4 text-foreground">Para Clientes</h5>
               <ul className="space-y-2">
-                <li><Link href="/restaurants/discover" className="text-gray-300 hover:text-white">Descobrir Restaurantes</Link></li>
-                <li><Link href="/auth/register/customer" className="text-gray-300 hover:text-white">Criar Conta</Link></li>
-                <li><Link href="/auth/login" className="text-gray-300 hover:text-white">Fazer Login</Link></li>
+                <li><Link href="/restaurants/discover" className="text-muted-foreground hover:text-foreground">Descobrir Restaurantes</Link></li>
+                <li><Link href="/auth/register/customer" className="text-muted-foreground hover:text-foreground">Criar Conta</Link></li>
+                <li><Link href="/auth/login" className="text-muted-foreground hover:text-foreground">Fazer Login</Link></li>
               </ul>
             </div>
 
             <div>
-              <h5 className="font-semibold mb-4">Suporte</h5>
+              <h5 className="font-semibold mb-4 text-foreground">Suporte</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Central de Ajuda</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Contato</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Termos de Uso</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Central de Ajuda</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Contato</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Termos de Uso</a></li>
               </ul>
             </div>
 
             <div>
-              <h5 className="font-semibold mb-4">Empresa</h5>
+              <h5 className="font-semibold mb-4 text-foreground">Empresa</h5>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Sobre Nós</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Trabalhe Conosco</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Imprensa</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Sobre Nós</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Trabalhe Conosco</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-foreground">Imprensa</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8">
+          <div className="border-t border-border mt-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-center md:text-left mb-4 md:mb-0">
-                <p className="text-gray-300">
+                <p className="text-muted-foreground">
                   © 2024 DeliveryNext. Todos os direitos reservados.
                 </p>
               </div>
               <div className="text-center md:text-right">
-                <p className="text-gray-300 mb-2">
+                <p className="text-muted-foreground mb-2">
                   É dono de um restaurante?
                 </p>
                 <Link href="/restaurant-owner">
-                  <Button variant="outline" size="sm" className="border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white">
+                  <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                     <Store className="h-4 w-4 mr-2" />
                     Comece aqui!
                   </Button>

@@ -20,6 +20,7 @@ import {
   Edit,
   Trash2
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface Restaurant {
   id: string
@@ -124,8 +125,8 @@ export default function RestaurantsPage() {
                 Voltar
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Restaurantes</h1>
-                <p className="text-sm text-gray-600">Gerencie seus restaurantes</p>
+                <h1 className="text-2xl font-bold text-foreground">Gerenciar Restaurantes</h1>
+                <p className="text-sm text-muted-foreground">Visualize e edite os restaurantes da sua rede</p>
               </div>
             </div>
             <Button onClick={() => router.push('/restaurants/create')}>
@@ -142,13 +143,11 @@ export default function RestaurantsPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
                 type="text"
-                placeholder="Buscar por nome, cidade ou bairro..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                placeholder="Buscar restaurantes..."
+                className="pl-10"
               />
             </div>
           </div>
@@ -174,17 +173,14 @@ export default function RestaurantsPage() {
           {filteredRestaurants.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
-                <Store className="h-12 w-12 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum restaurante encontrado</h3>
-                <p className="text-gray-600 mb-4">
-                  {searchTerm || statusFilter !== 'all' 
-                    ? 'Tente ajustar os filtros de busca.' 
-                    : 'Comece criando seu primeiro restaurante.'
-                  }
+                <Store className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">Nenhum restaurante encontrado</h3>
+                <p className="text-muted-foreground mb-4">
+                  Comece adicionando seu primeiro restaurante para expandir sua rede.
                 </p>
-                <Button onClick={() => router.push('/restaurants/create')}>
+                <Button onClick={() => router.push('/restaurants/create')} className="bg-primary hover:bg-primary/90">
                   <Plus className="h-4 w-4 mr-2" />
-                  Criar Primeiro Restaurante
+                  Adicionar Restaurante
                 </Button>
               </CardContent>
             </Card>

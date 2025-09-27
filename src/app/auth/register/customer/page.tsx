@@ -82,16 +82,16 @@ export default function CustomerRegisterPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center mb-4">
-            <Link href="/" className="flex items-center mr-4 text-gray-600 hover:text-gray-800">
+            <Link href="/" className="flex items-center mr-4 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span>Voltar</span>
             </Link>
           </div>
           <div className="flex justify-center mb-4">
-            <User className="h-12 w-12 text-orange-600" />
+            <User className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">Criar Conta de Cliente</CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardTitle className="text-2xl font-bold text-foreground">Criar Conta de Cliente</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Cadastre-se para descobrir restaurantes e fazer pedidos
           </CardDescription>
         </CardHeader>
@@ -114,7 +114,7 @@ export default function CustomerRegisterPage() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Seu nome completo"
               />
             </div>
@@ -130,7 +130,7 @@ export default function CustomerRegisterPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="seu@email.com"
               />
             </div>
@@ -146,7 +146,7 @@ export default function CustomerRegisterPage() {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="(11) 99999-9999"
               />
             </div>
@@ -163,7 +163,7 @@ export default function CustomerRegisterPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-3 py-2 pr-10 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   placeholder="Mínimo 6 caracteres"
                 />
                 <button
@@ -187,7 +187,7 @@ export default function CustomerRegisterPage() {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="Digite a senha novamente"
               />
             </div>
@@ -204,7 +204,7 @@ export default function CustomerRegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Já tem uma conta?{' '}
-              <Link href="/auth/login" className="text-orange-600 hover:text-orange-500 font-medium">
+              <Link href="/auth/login" className="text-primary hover:text-primary/90 font-medium">
                 Fazer login
               </Link>
             </p>
@@ -213,7 +213,7 @@ export default function CustomerRegisterPage() {
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Tem um restaurante?{' '}
-              <Link href="/auth/register/restaurant" className="text-green-600 hover:text-green-500 font-medium">
+              <Link href="/auth/register/restaurant" className="text-primary hover:text-primary/90 font-medium">
                 Cadastrar restaurante
               </Link>
             </p>

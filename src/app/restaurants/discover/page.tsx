@@ -243,8 +243,8 @@ export default function DiscoverRestaurantsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Descubra Restaurantes</h1>
-              <p className="text-gray-600 mt-1">Encontre os melhores sabores da sua região</p>
+              <h1 className="text-2xl font-bold text-foreground">Descobrir Restaurantes</h1>
+              <p className="text-sm text-muted-foreground">Encontre os melhores restaurantes perto de você</p>
             </div>
             <div className="flex space-x-2">
               {localStorage.getItem('token') && (
@@ -266,10 +266,10 @@ export default function DiscoverRestaurantsPage() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Buscar restaurantes, pratos ou categorias..."
+                  placeholder="Buscar restaurantes por nome ou cozinha..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -310,14 +310,18 @@ export default function DiscoverRestaurantsPage() {
         {filteredRestaurants.length === 0 ? (
           <Card>
             <CardContent className="text-center py-12">
-              <Store className="h-12 w-12 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum restaurante encontrado</h3>
-              <p className="text-gray-600 mb-4">
-                {searchTerm || locationFilter || statusFilter !== 'all'
-                  ? 'Tente ajustar os filtros de busca.'
-                  : 'Não há restaurantes disponíveis no momento.'
-                }
+              <Store className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-foreground mb-2">Nenhum restaurante encontrado</h3>
+              <p className="text-muted-foreground mb-4">
+                Tente ajustar os filtros de busca ou verifique sua localização.
               </p>
+              <Button onClick={() => {
+                setSearchTerm('')
+                setLocationFilter('')
+              }} className="bg-primary hover:bg-primary/90">
+                <Filter className="h-4 w-4 mr-2" />
+                Limpar Filtros
+              </Button>
             </CardContent>
           </Card>
         ) : (

@@ -13,8 +13,11 @@ import {
   Circle, 
   Truck,
   Utensils,
-  Package
+  Package,
+  ArrowLeft,
+  Printer
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface Order {
   id: string
@@ -113,6 +116,8 @@ export default function OrderTrackingPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const router = useRouter()
+
   useEffect(() => {
     loadOrder()
   }, [orderId])
@@ -166,6 +171,29 @@ export default function OrderTrackingPage() {
     }).format(value)
   }
 
+  const getStatusColor = (status: string) => {
+    const config = statusConfig[status as keyof typeof statusConfig]
+    return config.color
+  }
+
+  const getStatusText = (status: string) => {
+    const config = statusConfig[status as keyof typeof statusConfig]
+    return config.label
+  }
+
+  const getPaymentMethodText = (method: string) => {
+    return method.replace(/_/g, ' ').toLowerCase()
+  }
+
+  const isStatusCompleted = (status: string) => {
+    return getStatusIndex(status) < getCurrentStatusIndex()
+  }
+
+  const getStatusIcon = (status: string) => {
+    const config = statusConfig[status as keyof typeof statusConfig]
+    return config.icon
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -203,195 +231,171 @@ export default function OrderTrackingPage() {
   const statusConfig_current = statusConfig[order.status as keyof typeof statusConfig]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Acompanhar Pedido</h1>
-          <p className="text-gray-600 mt-2">Pedido #{order.id.slice(-8).toUpperCase()}</p>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-card shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => router.back()}
+                className="mr-4"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Voltar
+              </Button>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Detalhes do Pedido</h1>
+                <p className="text-sm text-muted-foreground">Pedido #{order.id}</p>
+              </div>
+            </div>
+            <Button onClick={() => {}} className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Printer className="h-4 w-4 mr-2" />
+              Imprimir
+            </Button>
+          </div>
         </div>
+      </header>
 
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Order Status */}
-          <div className="lg:col-span-2">
+          {/* Order Summary */}
+          <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <statusConfig_current.icon className="h-5 w-5 mr-2" />
-                  Status do Pedido
-                </CardTitle>
+                <CardTitle>Resumo do Pedido</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center mb-4">
-                  <Badge className={statusConfig_current.color}>
-                    {statusConfig_current.label}
-                  </Badge>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Status</span>
+                  <Badge className={getStatusColor(order.status)}>{getStatusText(order.status)}</Badge>
                 </div>
-                <p className="text-gray-600 mb-6">{statusConfig_current.description}</p>
-
-                {/* Status Timeline */}
-                <div className="space-y-4">
-                  {statusOrder.map((status, index) => {
-                    const config = statusConfig[status as keyof typeof statusConfig]
-                    const isCompleted = index <= currentStatusIndex
-                    const isCurrent = index === currentStatusIndex
-                    
-                    return (
-                      <div key={status} className="flex items-center">
-                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
-                          isCompleted 
-                            ? 'bg-orange-600 text-white' 
-                            : 'bg-gray-200 text-gray-600'
-                        }`}>
-                          {isCompleted ? (
-                            <CheckCircle className="h-4 w-4" />
-                          ) : (
-                            <config.icon className="h-4 w-4" />
-                          )}
-                        </div>
-                        <div className="ml-4 flex-1">
-                          <p className={`font-medium ${
-                            isCurrent ? 'text-orange-600' : isCompleted ? 'text-gray-900' : 'text-gray-600'
-                          }`}>
-                            {config.label}
-                          </p>
-                          {isCurrent && (
-                            <p className="text-sm text-gray-600">{config.description}</p>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Restaurante</span>
+                  <span className="font-medium text-foreground">{order.restaurant.name}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Cliente</span>
+                  <span className="font-medium text-foreground">{order.customer.name}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Data/Hora</span>
+                  <span className="font-medium text-foreground">
+                    {new Date(order.createdAt).toLocaleDateString('pt-BR')} às {new Date(order.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Método de Entrega</span>
+                  <span className="font-medium text-foreground">{(order.fulfillment === 'DELIVERY' ? 'Entrega' : 'Retirada')}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Pagamento</span>
+                  <span className="font-medium text-foreground">{getPaymentMethodText(order.paymentMethod)}</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Order Items */}
-            <Card className="mt-6">
+            <Card>
               <CardHeader>
                 <CardTitle>Itens do Pedido</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {order.orderItems.map((item) => (
-                    <div key={item.id} className="flex justify-between items-start">
+                  {order.orderItems.map(item => (
+                    <div key={item.id} className="flex justify-between items-start border-b border-border pb-4 last:border-b-0">
                       <div className="flex-1">
-                        <p className="font-medium">{item.productName}</p>
-                        <p className="text-sm text-gray-600">Qtd: {item.quantity}</p>
-                        {item.observations && (
-                          <p className="text-sm text-gray-600 mt-1">
-                            Obs: {item.observations}
-                          </p>
-                        )}
+                        <h4 className="font-medium text-foreground">{item.productName}</h4>
                         {item.orderItemOptions.length > 0 && (
-                          <div className="mt-2">
-                            {item.orderItemOptions.map((option) => (
-                              <div key={option.id} className="text-sm text-gray-600">
-                                <span className="font-medium">{option.groupNameSnapshot}:</span>
-                                <span className="ml-1">{option.optionNameSnapshot}</span>
-                                {option.priceDeltaApplied > 0 && (
-                                  <span className="ml-1 text-green-600">
-                                    (+{formatCurrency(option.priceDeltaApplied)})
-                                  </span>
-                                )}
-                              </div>
+                          <ul className="text-sm text-muted-foreground ml-4 mt-1 space-y-0.5">
+                            {item.orderItemOptions.map(option => (
+                              <li key={option.id}>- {option.groupNameSnapshot}: {option.optionNameSnapshot}</li>
                             ))}
-                          </div>
+                          </ul>
+                        )}
+                        <p className="text-sm text-muted-foreground">Qtd: {item.quantity}</p>
+                        {item.observations && (
+                          <p className="text-sm text-muted-foreground mt-1">Obs: {item.observations}</p>
                         )}
                       </div>
-                      <span className="font-medium">
-                        {formatCurrency(item.unitPrice * item.quantity)}
-                      </span>
+                      <div className="text-right">
+                        <p className="font-medium text-foreground">R$ {Number(item.unitPrice * item.quantity).toFixed(2)}</p>
+                        {item.orderItemOptions.length > 0 && (
+                          <p className="text-sm text-muted-foreground mt-1">
+                            (+R$ {item.orderItemOptions.reduce((sum, opt) => sum + Number(opt.priceDeltaApplied), 0).toFixed(2)})
+                          </p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
+
+            {/* Totals */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Totais</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Subtotal</span>
+                  <span>R$ {Number(order.subtotal).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Taxa de Entrega</span>
+                  <span>R$ {Number(order.deliveryFee).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-lg font-bold text-foreground border-t border-border pt-2">
+                  <span>Total</span>
+                  <span>R$ {Number(order.total).toFixed(2)}</span>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Order Details */}
-          <div>
-            <Card className="sticky top-8">
+          {/* Order Timeline / Events */}
+          <div className="lg:col-span-1">
+            <Card>
               <CardHeader>
-                <CardTitle>Detalhes do Pedido</CardTitle>
+                <CardTitle>Histórico do Pedido</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Restaurante</h4>
-                  <p className="text-gray-600">{order.restaurant.name}</p>
-                  <p className="text-sm text-gray-600">
-                    {order.restaurant.address?.street}, {order.restaurant.address?.number}
-                  </p>
-                </div>
+              <CardContent>
+                <ol className="relative border-l border-border space-y-6 ml-2">
+                  {order.orderEvents.map((event, index) => {
+                    const isCurrent = order.status === event.toStatus
+                    const isCompleted = isStatusCompleted(event.toStatus)
+                    const Icon = getStatusIcon(event.toStatus)
 
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Tipo de Entrega</h4>
-                  <div className="flex items-center">
-                    {order.fulfillment === 'delivery' ? (
-                      <>
-                        <MapPin className="h-4 w-4 mr-2 text-orange-600" />
-                        <span>Entrega</span>
-                      </>
-                    ) : (
-                      <>
-                        <Clock className="h-4 w-4 mr-2 text-orange-600" />
-                        <span>Retirada</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Pagamento</h4>
-                  <div className="flex items-center">
-                    <CreditCard className="h-4 w-4 mr-2 text-orange-600" />
-                    <span className="capitalize">{order.paymentMethod}</span>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Resumo</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Subtotal:</span>
-                      <span>{formatCurrency(order.subtotal)}</span>
-                    </div>
-                    {order.deliveryFee > 0 && (
-                      <div className="flex justify-between">
-                        <span>Taxa de entrega:</span>
-                        <span>{formatCurrency(order.deliveryFee)}</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between font-bold border-t pt-2">
-                      <span>Total:</span>
-                      <span>{formatCurrency(order.total)}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {order.notes && (
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Observações</h4>
-                    <p className="text-sm text-gray-600">{order.notes}</p>
-                  </div>
-                )}
-
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Data do Pedido</h4>
-                  <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
-                </div>
-
-                <Button 
-                  className="w-full" 
-                  onClick={() => window.history.back()}
-                >
-                  Voltar
-                </Button>
+                    return (
+                      <li key={event.id} className="mb-10 ml-6">
+                        <span className={`absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-background ${
+                          isCurrent
+                            ? 'bg-primary text-primary-foreground'
+                            : isCompleted
+                              ? 'bg-secondary text-secondary-foreground'
+                              : 'bg-muted text-muted-foreground'
+                        }`}>
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <h3 className="flex items-center mb-1 text-lg font-semibold text-foreground">
+                          {getStatusText(event.toStatus)}
+                        </h3>
+                        <time className="block mb-2 text-sm font-normal leading-none text-muted-foreground">
+                          {new Date(event.ts).toLocaleDateString('pt-BR')} às {new Date(event.ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                        </time>
+                        <p className="text-base font-normal text-muted-foreground">{event.notes}</p>
+                      </li>
+                    )
+                  })}
+                </ol>
               </CardContent>
             </Card>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }
