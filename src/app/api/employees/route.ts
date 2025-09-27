@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, hashPassword } from '@/lib/auth'
-import { UserRole } from '@prisma/client'
+// Enums are now strings in the schema
+type UserRole = 'OWNER' | 'STAFF' | 'AFFILIATE' | 'ADMIN' | 'CUSTOMER'
 
 export async function GET(request: NextRequest) {
   try {
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
       where: { 
         tenantId: decoded.tenantId,
         role: {
-          in: [UserRole.OWNER, UserRole.STAFF, UserRole.AFFILIATE, UserRole.ADMIN]
+          in: ['OWNER', 'STAFF', 'AFFILIATE', 'ADMIN']
         }
       },
       select: {

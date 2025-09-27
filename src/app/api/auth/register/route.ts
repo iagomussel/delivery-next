@@ -47,15 +47,15 @@ export async function POST(request: NextRequest) {
         tenantId: tenant.id,
         name: restaurantName,
         slug: restaurantSlug,
-        address: {
+        address: JSON.stringify({
           street: '',
           number: '',
           neighborhood: '',
           city: '',
           state: '',
           zip: '',
-        },
-        openingHours: {
+        }),
+        openingHours: JSON.stringify({
           monday: { open: '08:00', close: '22:00' },
           tuesday: { open: '08:00', close: '22:00' },
           wednesday: { open: '08:00', close: '22:00' },
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
           friday: { open: '08:00', close: '22:00' },
           saturday: { open: '08:00', close: '22:00' },
           sunday: { open: '08:00', close: '22:00' },
-        },
+        }),
       },
     })
 
