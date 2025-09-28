@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function ProductOptionsPage({ params }: { params: { id: string } }) {
+export default async function ProductOptionsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-4">
       <h1 className="text-2xl font-semibold text-foreground">Opções do Produto</h1>
@@ -16,4 +17,3 @@ export default function ProductOptionsPage({ params }: { params: { id: string } 
     </div>
   )
 }
-

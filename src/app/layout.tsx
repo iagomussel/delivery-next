@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, GeistMono } from "geist/font";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ToastManagerProvider } from "@/components/ui/use-toast";
@@ -9,7 +9,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = GeistMono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
