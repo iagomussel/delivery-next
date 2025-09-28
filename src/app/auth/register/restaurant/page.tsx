@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ export default function RestaurantRegisterPage() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [hydrated, setHydrated] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
 
@@ -27,6 +28,8 @@ export default function RestaurantRegisterPage() {
       [e.target.name]: e.target.value,
     })
   }
+
+  useEffect(() => setHydrated(true), [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -104,7 +107,7 @@ export default function RestaurantRegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form method="post" action="/api/auth/register" onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
                 {error}
@@ -219,7 +222,7 @@ export default function RestaurantRegisterPage() {
             <Button
               type="submit"
               className="w-full bg-primary hover:bg-primary/90"
-              disabled={loading}
+              disabled={loading || !hydrated}
             >
               {loading ? 'Criando conta...' : 'Cadastrar Restaurante'}
             </Button>
