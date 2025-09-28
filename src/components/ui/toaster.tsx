@@ -8,7 +8,7 @@ import {
   ToastDescription,
   ToastClose,
 } from "@/components/ui/toast"
-import { ToastManagerProvider, useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 
 function ToastList() {
   const { toasts, remove } = useToast()
@@ -30,11 +30,8 @@ function ToastList() {
 
 export function Toaster() {
   return (
-    <ToastManagerProvider>
-      <RadixToastProvider>
-        <ToastList />
-      </RadixToastProvider>
-    </ToastManagerProvider>
+    <RadixToastProvider>
+      <ToastList />
+    </RadixToastProvider>
   )
 }
-

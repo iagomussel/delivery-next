@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -8,14 +8,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Store, Eye, EyeOff } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [hydrated, setHydrated] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { toast } = useToast()
+
+  useEffect(() => setHydrated(true), [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,6 +39,10 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
+        try {
+          const name = (data && data.user && data.user.name) ? data.user.name : ''
+          toast({ title: 'Login realizado', description: name ? `Bem-vindo, ${name}` : 'Login efetuado com sucesso', variant: 'success' })
+        } catch {}
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data.user))
         
@@ -49,6 +58,7 @@ export default function LoginPage() {
         }
       } else {
         setError(data.error || 'Erro ao fazer login')
+        try { toast({ title: 'Falha no login', description: data.error || 'Erro ao fazer login', variant: 'destructive' }) } catch {}
       }
     } catch {
       setError('Erro de conexão. Tente novamente.')
@@ -84,7 +94,7 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form method="post" action="/api/auth/login" onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
                   {error}
@@ -134,7 +144,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={loading}
+                disabled={loading || !hydrated}
               >
                 {loading ? 'Entrando...' : 'Entrar'}
               </Button>
