@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, GeistMono } from "geist/font";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ToastManagerProvider } from "@/components/ui/use-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = GeistMono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = GeistSans;
+const geistMono = GeistMono;
 
 export const metadata: Metadata = {
   title: {
