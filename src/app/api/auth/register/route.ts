@@ -3,9 +3,33 @@ import { prisma } from '@/lib/prisma'
 import { hashPassword, generateToken } from '@/lib/auth'
 import { generateSlug } from '@/lib/utils'
 
+function isJsonRequest(req: NextRequest) {
+  const ct = req.headers.get('content-type') || ''
+  return ct.includes('application/json')
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, tenantName, restaurantName } = await request.json()
+    let name = ''
+    let email = ''
+    let password = ''
+    let tenantName = ''
+    let restaurantName = ''
+    if (isJsonRequest(request)) {
+      const body = await request.json()
+      name = body?.name || ''
+      email = body?.email || ''
+      password = body?.password || ''
+      tenantName = body?.tenantName || ''
+      restaurantName = body?.restaurantName || ''
+    } else {
+      const form = await request.formData()
+      name = String(form.get('name') || '')
+      email = String(form.get('email') || '')
+      password = String(form.get('password') || '')
+      tenantName = String(form.get('tenantName') || '')
+      restaurantName = String(form.get('restaurantName') || '')
+    }
 
     if (!name || !email || !password || !tenantName || !restaurantName) {
       return NextResponse.json(
@@ -26,8 +50,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create tenant
+    // Create tenant (guard against duplicate slug)
     const tenantSlug = generateSlug(tenantName)
+    const existingTenantSlug = await prisma.tenant.findUnique({ where: { slug: tenantSlug } })
+    if (existingTenantSlug) {
+      return NextResponse.json(
+        { error: 'Company name already in use. Choose another.' },
+        { status: 409 }
+      )
+    }
     const tenant = await prisma.tenant.create({
       data: {
         name: tenantName,
@@ -37,8 +68,15 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Create restaurant
+    // Create restaurant (guard against duplicate slug)
     const restaurantSlug = generateSlug(restaurantName)
+    const existingRestaurantSlug = await prisma.restaurant.findUnique({ where: { slug: restaurantSlug } })
+    if (existingRestaurantSlug) {
+      return NextResponse.json(
+        { error: 'Restaurant name already in use. Choose another.' },
+        { status: 409 }
+      )
+    }
     const restaurant = await prisma.restaurant.create({
       data: {
         tenantId: tenant.id,
@@ -64,7 +102,9 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Create user
+    // Create user (first user becomes ADMIN, others default to OWNER)
+    const totalUsers = await prisma.user.count()
+    const defaultRole = totalUsers === 0 ? 'ADMIN' : 'OWNER'
     const hashedPassword = await hashPassword(password)
     const user = await prisma.user.create({
       data: {
@@ -72,7 +112,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         passwordHash: hashedPassword,
-        role: 'OWNER',
+        role: defaultRole,
         active: true,
       },
     })
@@ -110,4 +150,8 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ error: 'Method not allowed. Use POST.' }, { status: 405 })
 }
