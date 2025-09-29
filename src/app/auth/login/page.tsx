@@ -16,38 +16,36 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Salvar token
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        
-        // Redirecionar baseado no role
-        if (data.user.role === 'ADMIN') {
-          router.push('/admin')
-        } else if (data.user.role === 'OWNER' || data.user.role === 'STAFF') {
-          router.push('/dashboard')
-        } else {
-          router.push('/')
+    // BYPASS LOGIN - Acesso direto sem autenticação
+    setTimeout(() => {
+      // Simular token e usuário fake
+      const fakeToken = 'bypass-token-' + Date.now()
+      const fakeUser = {
+        id: 'bypass-user',
+        name: 'Usuário Bypass',
+        email: email || 'bypass@test.com',
+        role: 'ADMIN', // Pode mudar para OWNER, STAFF, CUSTOMER conforme necessário
+        tenant: {
+          id: 'bypass-tenant',
+          name: 'Tenant Bypass',
+          slug: 'bypass'
         }
-      } else {
-        setError(data.error || 'Erro ao fazer login')
       }
-    } catch (err) {
-      setError('Erro de conexão. Tente novamente.')
-    } finally {
+
+      localStorage.setItem('token', fakeToken)
+      localStorage.setItem('user', JSON.stringify(fakeUser))
+      
+      // Redirecionar baseado no role fake
+      if (fakeUser.role === 'ADMIN') {
+        router.push('/admin')
+      } else if (fakeUser.role === 'OWNER' || fakeUser.role === 'STAFF') {
+        router.push('/dashboard')
+      } else {
+        router.push('/')
+      }
+      
       setLoading(false)
-    }
+    }, 500) // Simular delay de rede
   }
 
   return (
@@ -105,22 +103,96 @@ export default function LoginPage() {
         </form>
 
         <div className="text-center space-y-4">
-          <p className="text-sm text-gray-600">
-            Não tem uma conta?
-          </p>
-          <div className="space-y-2">
-            <Link 
-              href="/auth/register/customer"
-              className="block w-full py-2 px-4 border border-blue-600 rounded-md text-blue-600 hover:bg-blue-50 text-center"
-            >
-              Sou Cliente
-            </Link>
-            <Link 
-              href="/auth/register/restaurant"
-              className="block w-full py-2 px-4 border border-blue-600 rounded-md text-blue-600 hover:bg-blue-50 text-center"
-            >
-              Tenho Restaurante
-            </Link>
+          <div className="border-t pt-4">
+            <p className="text-sm text-gray-600 mb-3">
+              🚀 BYPASS LOGIN (Desenvolvimento)
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  localStorage.setItem('token', 'bypass-admin-' + Date.now())
+                  localStorage.setItem('user', JSON.stringify({
+                    id: 'admin-bypass',
+                    name: 'Admin Bypass',
+                    email: 'admin@bypass.com',
+                    role: 'ADMIN',
+                    tenant: { id: 'bypass-tenant', name: 'Bypass Tenant', slug: 'bypass' }
+                  }))
+                  router.push('/admin')
+                }}
+                className="py-2 px-3 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+              >
+                Admin
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('token', 'bypass-owner-' + Date.now())
+                  localStorage.setItem('user', JSON.stringify({
+                    id: 'owner-bypass',
+                    name: 'Owner Bypass',
+                    email: 'owner@bypass.com',
+                    role: 'OWNER',
+                    tenant: { id: 'bypass-tenant', name: 'Bypass Tenant', slug: 'bypass' }
+                  }))
+                  router.push('/dashboard')
+                }}
+                className="py-2 px-3 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+              >
+                Owner
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('token', 'bypass-staff-' + Date.now())
+                  localStorage.setItem('user', JSON.stringify({
+                    id: 'staff-bypass',
+                    name: 'Staff Bypass',
+                    email: 'staff@bypass.com',
+                    role: 'STAFF',
+                    tenant: { id: 'bypass-tenant', name: 'Bypass Tenant', slug: 'bypass' }
+                  }))
+                  router.push('/dashboard')
+                }}
+                className="py-2 px-3 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+              >
+                Staff
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('token', 'bypass-customer-' + Date.now())
+                  localStorage.setItem('user', JSON.stringify({
+                    id: 'customer-bypass',
+                    name: 'Customer Bypass',
+                    email: 'customer@bypass.com',
+                    role: 'CUSTOMER',
+                    tenant: { id: 'bypass-tenant', name: 'Bypass Tenant', slug: 'bypass' }
+                  }))
+                  router.push('/')
+                }}
+                className="py-2 px-3 bg-purple-600 text-white rounded text-sm hover:bg-purple-700"
+              >
+                Customer
+              </button>
+            </div>
+          </div>
+          
+          <div className="border-t pt-4">
+            <p className="text-sm text-gray-600">
+              Não tem uma conta?
+            </p>
+            <div className="space-y-2 mt-2">
+              <Link 
+                href="/auth/register/customer"
+                className="block w-full py-2 px-4 border border-blue-600 rounded-md text-blue-600 hover:bg-blue-50 text-center"
+              >
+                Sou Cliente
+              </Link>
+              <Link 
+                href="/auth/register/restaurant"
+                className="block w-full py-2 px-4 border border-blue-600 rounded-md text-blue-600 hover:bg-blue-50 text-center"
+              >
+                Tenho Restaurante
+              </Link>
+            </div>
           </div>
         </div>
       </div>
