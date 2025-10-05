@@ -58,6 +58,15 @@ const config = {
           3: 'var(--chart-3)',
           4: 'var(--chart-4)',
           5: 'var(--chart-5)'
+        },
+        netflix: {
+          red: 'var(--netflix-red, #E50914)',
+          'red-dark': 'var(--netflix-red-dark, #B20710)',
+          black: 'var(--netflix-black, #000000)',
+          'gray-dark': 'var(--netflix-gray-dark, #141414)',
+          gray: 'var(--netflix-gray, #2F2F2F)',
+          'gray-light': 'var(--netflix-gray-light, #808080)',
+          white: 'var(--netflix-white, #FFFFFF)'
         }
       },
       borderRadius: {

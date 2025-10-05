@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ToastManagerProvider } from "@/components/ui/use-toast";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = GeistSans;
 const geistMono = GeistMono;
@@ -35,10 +36,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastManagerProvider>
-          {children}
-          <Toaster />
-        </ToastManagerProvider>
+        <ThemeProvider>
+          <ToastManagerProvider>
+            {children}
+            <Toaster />
+          </ToastManagerProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
