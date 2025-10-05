@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* Original Theme (Default) */
+:root,
+.theme-original {
+  --background: oklch(1.0000 0 0);
+  --foreground: oklch(0.2686 0 0);
   --card: oklch(1.0000 0 0);
   --card-foreground: oklch(0.2686 0 0);
   --popover: oklch(1.0000 0 0);
@@ -47,6 +51,105 @@
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+}
+
+/* Netflix Theme */
+.theme-netflix {
+  /* Netflix signature colors */
+  --netflix-red: #E50914;
+  --netflix-red-dark: #B20710;
+  --netflix-black: #000000;
+  --netflix-gray-dark: #141414;
+  --netflix-gray: #2F2F2F;
+  --netflix-gray-light: #808080;
+  --netflix-white: #FFFFFF;
+  
+  /* Theme variables mapped to Netflix colors */
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --card: #141414;
+  --card-foreground: #FFFFFF;
+  --popover: #2F2F2F;
+  --popover-foreground: #FFFFFF;
+  --primary: #E50914;
+  --primary-foreground: #FFFFFF;
+  --secondary: #2F2F2F;
+  --secondary-foreground: #FFFFFF;
+  --muted: #141414;
+  --muted-foreground: #808080;
+  --accent: #E50914;
+  --accent-foreground: #FFFFFF;
+  --destructive: #E50914;
+  --destructive-foreground: #FFFFFF;
+  --border: #2F2F2F;
+  --input: #2F2F2F;
+  --ring: #E50914;
+  --chart-1: #E50914;
+  --chart-2: #B20710;
+  --chart-3: #831010;
+  --chart-4: #564D4D;
+  --chart-5: #2F2F2F;
+  --sidebar: #141414;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #E50914;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #2F2F2F;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #2F2F2F;
+  --sidebar-ring: #E50914;
+  
+  /* Netflix-inspired typography */
+  --font-sans: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'Courier New', monospace;
+  
+  /* Netflix-style radius and shadows */
+  --radius: 0.25rem;
+  --shadow-2xs: 0px 2px 8px rgba(0, 0, 0, 0.8);
+  --shadow-xs: 0px 2px 8px rgba(0, 0, 0, 0.8);
+  --shadow-sm: 0px 4px 12px rgba(0, 0, 0, 0.8);
+  --shadow: 0px 4px 12px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0px 6px 16px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0px 8px 24px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0px 12px 32px rgba(0, 0, 0, 0.9);
+  --shadow-2xl: 0px 16px 48px rgba(0, 0, 0, 0.95);
+  --tracking-normal: -0.02em;
+  --spacing: 0.25rem;
+}
+
+/* Netflix theme body styles */
+.theme-netflix body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Hide scrollbar for Netflix carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Netflix-style smooth transitions */
+.theme-netflix * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Netflix button hover effects */
+.theme-netflix button {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Netflix card hover effects */
+.theme-netflix .group:hover {
+  transform: scale(1.05);
+  z-index: 10;
 }
 
 .dark {
